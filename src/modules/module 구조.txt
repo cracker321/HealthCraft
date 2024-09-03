@@ -1,0 +1,51 @@
+src/
+└── modules/
+    ├── user/
+    │   ├── entities/
+    │   │   └── user.entity.ts
+    │   ├── dto/
+    │   │   ├── create-user.dto.ts
+    │   │   └── update-user.dto.ts
+    │   ├── user.controller.ts
+    │   ├── user.service.ts
+    │   └── user.module.ts
+    │
+    ├── health/
+    │   ├── entities/
+    │   │   ├── health-profile.entity.ts
+    │   │   ├── health-checkup.entity.ts
+    │   │   └── health-report.entity.ts
+    │   ├── dto/
+    │   ├── health.controller.ts
+    │   ├── health.service.ts
+    │   └── health.module.ts
+    │
+    ├── nutrition/
+    │   ├── entities/
+    │   │   ├── nutrition-goal.entity.ts
+    │   │   ├── meal-record.entity.ts
+    │   │   ├── food-database.entity.ts
+    │   │   ├── recipe.entity.ts
+    │   │   ├── dietary-restriction.entity.ts
+    │   │   └── allergy.entity.ts
+    │   ├── dto/
+    │   ├── nutrition.controller.ts
+    │   ├── nutrition.service.ts
+    │   └── nutrition.module.ts
+    │
+    ├── exercise/
+    │   ├── entities/
+    │   │   └── exercise-record.entity.ts
+    │   ├── dto/
+    │   ├── exercise.controller.ts
+    │   ├── exercise.service.ts
+    │   └── exercise.module.ts
+    │
+    └── supplement/
+        ├── entities/
+        │   ├── supplement-recommendation.entity.ts
+        │   └── nutrient-info.entity.ts
+        ├── dto/
+        ├── supplement.controller.ts
+        ├── supplement.service.ts
+        └── supplement.module.ts
