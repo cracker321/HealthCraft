@@ -77,6 +77,7 @@ import { Exclude } from 'class-transformer';
 
 
 import { HealthProfile } from '../../health/entity/health-profile.entity';
+import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
 import { NutritionPlan } from '../../nutrition/entity/nutrition-plan.entity';
 import { MealRecord } from '../../nutrition/entity/meal-record.entity';
 import { ExerciseRecord } from '../../exercise/entity/exercise-record.entity';
