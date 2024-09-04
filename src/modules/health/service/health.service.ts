@@ -48,8 +48,10 @@ export class HealthService {
     const report = this.healthReportRepository.create({
       user,
       latestCheckup,
-      reportDate: new Date(),
       overallHealthStatus: this.calculateOverallHealth(latestCheckup, latestProfile),
+      healthMetrics: this.calculateHealthMetrics(latestCheckup),
+      improvements: this.generateImprovements(latestCheckup, latestProfile),
+      risks: this.generateRisks(latestCheckup, latestProfile),
       recommendations: this.generateRecommendations(latestCheckup, latestProfile)
     });
 
@@ -65,12 +67,41 @@ export class HealthService {
   }
 
   private calculateOverallHealth(checkup: HealthCheckup, profile: HealthProfile): string {
-    // 전반적인 건강 상태를 계산하는 로직 구현
+    // 전반적인 건강 상태를 계산하는 로직
     // ...
+    return 'Good'; // 예시 반환값
   }
 
-  private generateRecommendations(checkup: HealthCheckup, profile: HealthProfile): string[] {
-    // 건강 개선 권장사항을 생성하는 로직 구현
+  private calculateHealthMetrics(checkup: HealthCheckup): HealthReport['healthMetrics'] {
+    // 건강 지표를 계산하는 로직
     // ...
+    return {
+      bmi: 22,
+      bloodPressureStatus: 'Normal',
+      cholesterolStatus: 'Normal',
+      bloodSugarStatus: 'Normal'
+    }; // 예시 반환값
+  }
+
+  private generateImprovements(checkup: HealthCheckup, profile: HealthProfile): string[] {
+    // 개선사항을 생성하는 로직
+    // ...
+    return ['Increase daily water intake', 'Exercise more regularly']; // 예시 반환값
+  }
+
+  private generateRisks(checkup: HealthCheckup, profile: HealthProfile): string[] {
+    // 건강 위험을 생성하는 로직
+    // ...
+    return ['Slightly elevated blood pressure']; // 예시 반환값
+  }
+
+  private generateRecommendations(checkup: HealthCheckup, profile: HealthProfile): HealthReport['recommendations'] {
+    // 권장사항을 생성하는 로직
+    // ...
+    return {
+      diet: ['Reduce salt intake', 'Increase vegetable consumption'],
+      exercise: ['30 minutes of moderate exercise daily'],
+      lifestyle: ['Practice stress-reduction techniques']
+    }; // 예시 반환값
   }
 }
