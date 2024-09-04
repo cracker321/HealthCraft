@@ -12,7 +12,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, IsOptional } from 'class-validator';
 import { User } from '../../user/entity/user.entity';
-import { NutrientInfo } from './nutrient-info.entity';
+import { NutrientInfo } from '../../supplement/entity/nutrient-info.entity';
 
 @Entity()
 export class SupplementRecommendation {
@@ -36,6 +36,9 @@ export class SupplementRecommendation {
   @Column()
   @IsNotEmpty({ message: '복용량 단위는 필수입니다.' })
   dosageUnit: string;
+
+  @Column()
+  targetNutrient: string;
 
   // 복용 스케줄
   @Column('simple-json')

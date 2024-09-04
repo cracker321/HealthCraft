@@ -72,4 +72,36 @@ export class HydrationTrackingService {
 
     return recommendations;
   }
+
+  // 수분 섭취 목표 설정 메서드
+  async setHydrationGoal(userId: string, goal: number): Promise<void> {
+    // 사용자 정보를 조회합니다.
+    const user = await this.userService.findOne(userId);
+    // 수분 섭취 목표를 업데이트합니다.
+    user.hydrationGoal = goal;
+    // 업데이트된 사용자 정보를 저장합니다.
+    await this.userService.update(userId, user);
+  }
+
+  // 주간 수분 섭취 통계 조회 메서드
+  async getWeeklyHydrationStats(userId: string): Promise<any> {
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const records = await this.hydrationRecordRepository.find({
+      where: {
+        user: { id: userId },
+        timestamp: Between(startDate, endDate)
+      }
+    });
+
+    // 일별 수분 섭취량을 계산합니다.
+    const dailyStats = {};
+    records.forEach(record => {
+      const day = record.timestamp.toISOString().split('T')[0];
+      dailyStats[day] = (dailyStats[day] || 0) + record.amount;
+    });
+
+    return dailyStats;
+  }
 }

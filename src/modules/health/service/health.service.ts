@@ -5,40 +5,72 @@ import { Repository } from 'typeorm';
 import { HealthProfile } from '../entity/health-profile.entity';
 import { HealthCheckup } from '../entity/health-checkup.entity';
 import { HealthReport } from '../entity/health-report.entity';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class HealthService {
   constructor(
-    // 각 건강 관련 엔티티에 대한 TypeORM 리포지토리를 주입받습니다.
     @InjectRepository(HealthProfile)
     private healthProfileRepository: Repository<HealthProfile>,
     @InjectRepository(HealthCheckup)
     private healthCheckupRepository: Repository<HealthCheckup>,
     @InjectRepository(HealthReport)
     private healthReportRepository: Repository<HealthReport>,
+    private userService: UserService
   ) {}
 
   // 사용자의 건강 프로필을 생성하는 메서드
   async createProfile(userId: string, profileData: Partial<HealthProfile>): Promise<HealthProfile> {
-    // HealthProfile 엔티티 인스턴스를 생성하고 사용자 ID를 연결합니다.
-    const profile = this.healthProfileRepository.create({ ...profileData, user: { id: userId } });
-    // 생성된 프로필을 데이터베이스에 저장하고 반환합니다.
+    const user = await this.userService.findOne(userId);
+    const profile = this.healthProfileRepository.create({ ...profileData, user });
     return this.healthProfileRepository.save(profile);
   }
 
   // 건강 검진 기록을 생성하는 메서드
   async createCheckup(userId: string, checkupData: Partial<HealthCheckup>): Promise<HealthCheckup> {
-    // HealthCheckup 엔티티 인스턴스를 생성하고 사용자 ID를 연결합니다.
-    const checkup = this.healthCheckupRepository.create({ ...checkupData, user: { id: userId } });
-    // 생성된 검진 기록을 데이터베이스에 저장하고 반환합니다.
+    const user = await this.userService.findOne(userId);
+    const checkup = this.healthCheckupRepository.create({ ...checkupData, user });
     return this.healthCheckupRepository.save(checkup);
   }
 
   // 건강 리포트를 생성하는 메서드
   async generateReport(userId: string): Promise<HealthReport> {
-    // TODO: 여기에 실제 리포트 생성 로직을 구현해야 합니다.
-    // 예: 최근 건강 검진 결과, 건강 프로필, 영양 목표 등을 종합하여 리포트 생성
-    const report = this.healthReportRepository.create({ user: { id: userId } });
+    const user = await this.userService.findOne(userId);
+    const latestCheckup = await this.healthCheckupRepository.findOne({
+      where: { user: { id: userId } },
+      order: { checkupDate: 'DESC' }
+    });
+    const latestProfile = await this.healthProfileRepository.findOne({
+      where: { user: { id: userId } },
+      order: { createdAt: 'DESC' }
+    });
+
+    const report = this.healthReportRepository.create({
+      user,
+      latestCheckup,
+      reportDate: new Date(),
+      overallHealthStatus: this.calculateOverallHealth(latestCheckup, latestProfile),
+      recommendations: this.generateRecommendations(latestCheckup, latestProfile)
+    });
+
     return this.healthReportRepository.save(report);
+  }
+
+  // 최신 건강 프로필을 조회하는 메서드
+  async getLatestHealthProfile(userId: string): Promise<HealthProfile> {
+    return this.healthProfileRepository.findOne({
+      where: { user: { id: userId } },
+      order: { createdAt: 'DESC' }
+    });
+  }
+
+  private calculateOverallHealth(checkup: HealthCheckup, profile: HealthProfile): string {
+    // 전반적인 건강 상태를 계산하는 로직 구현
+    // ...
+  }
+
+  private generateRecommendations(checkup: HealthCheckup, profile: HealthProfile): string[] {
+    // 건강 개선 권장사항을 생성하는 로직 구현
+    // ...
   }
 }

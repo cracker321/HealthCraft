@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SupplementRecommendation } from '../entity/supplement-recommendation.entity';
+import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
 import { NutrientInfo } from '../entity/nutrient-info.entity';
 
 @Injectable()

@@ -1,49 +1,42 @@
 // src/modules/calorie-calculator/service/calorie-calculator.service.ts
 import { Injectable } from '@nestjs/common';
-import { NutritionService } from '../../nutrition/service/nutrition.service';
-import { FoodDatabaseService } from '../../food-database/service/food-database.service';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class CalorieCalculatorService {
-  constructor(
-    private nutritionService: NutritionService,
-    private foodDatabaseService: FoodDatabaseService,
-  ) {}
+  constructor(private userService: UserService) {}
 
-  // 선택한 음식의 총 칼로리를 계산하는 메서드
-  async calculateTotalCalories(foodIds: string[], portions: { [foodId: string]: number }): Promise<number> {
-    let totalCalories = 0;
-    for (const foodId of foodIds) {
-      // 각 음식 항목에 대한 정보를 조회합니다.
-      const food = await this.foodDatabaseService.getFoodItem(foodId);
-      // 해당 음식의 섭취량을 가져옵니다. 기본값은 1(100g)으로 설정합니다.
-      const portion = portions[foodId] || 1;
-      // 음식의 칼로리를 계산하여 총 칼로리에 더합니다.
-      totalCalories += food.caloriesPer100g * (portion / 100);
+  // 기초 대사량(BMR)을 계산하는 메서드
+  async calculateBMR(userId: string): Promise<number> {
+    const user = await this.userService.findOne(userId);
+    const latestHealthProfile = user.healthProfiles[user.healthProfiles.length - 1];
+
+    let bmr;
+    if (user.gender === 'male') {
+      bmr = 88.362 + (13.397 * latestHealthProfile.weight) + (4.799 * latestHealthProfile.height) - (5.677 * user.age);
+    } else {
+      bmr = 447.593 + (9.247 * latestHealthProfile.weight) + (3.098 * latestHealthProfile.height) - (4.330 * user.age);
     }
-    return totalCalories;
+
+    return Math.round(bmr);
   }
 
-  // 사용자의 일일 권장 칼로리를 계산하는 메서드
-  async calculateDailyCalorieNeeds(userId: string): Promise<number> {
-    // 사용자의 현재 영양 목표를 조회합니다.
-    const nutritionGoal = await this.nutritionService.getCurrentNutritionGoal(userId);
-    // 영양 목표에 설정된 일일 칼로리 목표를 반환합니다.
-    return nutritionGoal.dailyCalorieTarget;
-  }
+  // 일일 권장 칼로리를 계산하는 메서드
+  async calculateDailyCalories(userId: string): Promise<number> {
+    const bmr = await this.calculateBMR(userId);
+    const user = await this.userService.findOne(userId);
+    const latestHealthProfile = user.healthProfiles[user.healthProfiles.length - 1];
 
-  // 음식의 영양 정보를 계산하는 메서드
-  async calculateNutritionInfo(foodId: string, portion: number): Promise<any> {
-    // 지정된 음식 항목의 정보를 조회합니다.
-    const food = await this.foodDatabaseService.getFoodItem(foodId);
-    // 섭취량에 따른 비율을 계산합니다.
-    const factor = portion / 100;
-    // 섭취량에 따른 영양 정보를 계산하여 반환합니다.
-    return {
-      calories: food.caloriesPer100g * factor,
-      protein: food.proteinPer100g * factor,
-      carbs: food.carbsPer100g * factor,
-      fat: food.fatPer100g * factor,
-    };
+    let activityMultiplier;
+    switch (latestHealthProfile.activityLevel) {
+      case 'sedentary': activityMultiplier = 1.2; break;
+      case 'lightly_active': activityMultiplier = 1.375; break;
+      case 'moderately_active': activityMultiplier = 1.55; break;
+      case 'very_active': activityMultiplier = 1.725; break;
+      case 'extra_active': activityMultiplier = 1.9; break;
+      default: activityMultiplier = 1.2;
+    }
+
+    return Math.round(bmr * activityMultiplier);
   }
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { MealPlan } from '../entity/meal-plan.entity';
 import { NutritionService } from '../../nutrition/service/nutrition.service';
 import { UserService } from '../../user/service/user.service';
+import { RecipeRecommendationService } from '../../recipe-recommendation/service/recipe-recommendation.service';
 
 @Injectable()
 export class MealPlannerService {
@@ -13,40 +14,30 @@ export class MealPlannerService {
     private mealPlanRepository: Repository<MealPlan>,
     private nutritionService: NutritionService,
     private userService: UserService,
+    private recipeRecommendationService: RecipeRecommendationService
   ) {}
 
   // 주간 식단 계획을 생성하는 메서드
   async createWeeklyPlan(userId: string): Promise<MealPlan> {
-    // 사용자 정보와 영양 목표를 조회합니다.
     const user = await this.userService.findOne(userId);
     const nutritionGoal = await this.nutritionService.getCurrentNutritionGoal(userId);
+    const dietaryRestrictions = await this.userService.getUserDietaryRestrictions(userId);
     
-    // 사용자의 영양 목표와 식이 제한을 고려하여 식단을 생성합니다.
-    const meals = await this.generateMeals(nutritionGoal, user.dietaryRestrictions);
+    const recipes = await this.recipeRecommendationService.getPersonalizedRecipes(userId);
+    const meals = this.generateMeals(recipes, nutritionGoal, dietaryRestrictions);
     
-    // MealPlan 엔티티 인스턴스를 생성합니다.
     const mealPlan = this.mealPlanRepository.create({
-      user: { id: userId },
+      user,
       startDate: new Date(),
       endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7일 후
       meals: meals,
     });
 
-    // 생성된 식단 계획을 데이터베이스에 저장하고 반환합니다.
     return this.mealPlanRepository.save(mealPlan);
-  }
-
-  // 식단 계획을 생성하는 내부 메서드
-  private async generateMeals(nutritionGoal: any, dietaryRestrictions: string[]): Promise<any[]> {
-    // TODO: 실제 식단 생성 로직을 구현해야 합니다.
-    // 이 부분에서는 nutritionGoal과 dietaryRestrictions를 고려하여
-    // 적절한 레시피와 음식을 선택하여 7일치 식단을 생성해야 합니다.
-    return [];
   }
 
   // 식단 계획을 조회하는 메서드
   async getMealPlan(userId: string): Promise<MealPlan> {
-    // 사용자의 가장 최근 식단 계획을 조회합니다.
     return this.mealPlanRepository.findOne({
       where: { user: { id: userId } },
       order: { createdAt: 'DESC' },
@@ -55,11 +46,93 @@ export class MealPlannerService {
 
   // 식단 계획을 업데이트하는 메서드
   async updateMealPlan(planId: string, updatedMeals: any[]): Promise<MealPlan> {
-    // 지정된 ID의 식단 계획을 조회합니다.
     const plan = await this.mealPlanRepository.findOne({ where: { id: planId } });
-    // 식단 계획의 meals 필드를 업데이트합니다.
     plan.meals = updatedMeals;
-    // 업데이트된 식단 계획을 저장하고 반환합니다.
     return this.mealPlanRepository.save(plan);
+  }
+
+  // 식단 생성 로직을 구현하는 메서드
+  private generateMeals(recipes: any[], nutritionGoal: any, dietaryRestrictions: string[]): any[] {
+    const meals = [];
+    const daysInWeek = 7;
+    const mealsPerDay = 3; // 아침, 점심, 저녁
+
+    for (let day = 0; day < daysInWeek; day++) {
+      const dailyMeals = [];
+      for (let meal = 0; meal < mealsPerDay; meal++) {
+        const suitableRecipes = this.filterRecipes(recipes, nutritionGoal, dietaryRestrictions);
+        const selectedRecipe = this.selectRandomRecipe(suitableRecipes);
+        dailyMeals.push(selectedRecipe);
+      }
+      meals.push(dailyMeals);
+    }
+
+    return meals;
+  }
+
+  // 레시피를 필터링하는 메서드
+  private filterRecipes(recipes: any[], nutritionGoal: any, dietaryRestrictions: string[]): any[] {
+    return recipes.filter(recipe => {
+      // 식이 제한 사항 체크
+      const meetsRestrictions = dietaryRestrictions.every(restriction => 
+        !recipe.dietaryRestrictions.includes(restriction)
+      );
+
+      // 영양 목표 체크 (간단한 예시, 실제로는 더 복잡할 수 있음)
+      const meetsNutritionGoal = 
+        recipe.calories <= (nutritionGoal.dailyCalorieTarget / 3) && // 하루 칼로리의 1/3 이하
+        recipe.protein >= (nutritionGoal.proteinTarget / 3) &&       // 하루 단백질의 1/3 이상
+        recipe.carbs <= (nutritionGoal.carbTarget / 3) &&            // 하루 탄수화물의 1/3 이하
+        recipe.fat <= (nutritionGoal.fatTarget / 3);                 // 하루 지방의 1/3 이하
+
+      return meetsRestrictions && meetsNutritionGoal;
+    });
+  }
+
+  // 무작위로 레시피를 선택하는 메서드
+  private selectRandomRecipe(recipes: any[]): any {
+    const randomIndex = Math.floor(Math.random() * recipes.length);
+    return recipes[randomIndex];
+  }
+
+  // 식단 계획의 영양 정보를 계산하는 메서드
+  async calculateMealPlanNutrition(mealPlan: MealPlan): Promise<any> {
+    let totalCalories = 0;
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    let totalFat = 0;
+
+    mealPlan.meals.forEach(day => {
+      day.forEach(meal => {
+        totalCalories += meal.calories;
+        totalProtein += meal.protein;
+        totalCarbs += meal.carbs;
+        totalFat += meal.fat;
+      });
+    });
+
+    return {
+      totalCalories,
+      totalProtein,
+      totalCarbs,
+      totalFat,
+      averageDailyCalories: totalCalories / 7,
+      averageDailyProtein: totalProtein / 7,
+      averageDailyCarbs: totalCarbs / 7,
+      averageDailyFat: totalFat / 7,
+    };
+  }
+
+  // 식단 계획의 다양성을 확인하는 메서드
+  checkMealPlanDiversity(mealPlan: MealPlan): boolean {
+    const uniqueRecipes = new Set();
+    mealPlan.meals.forEach(day => {
+      day.forEach(meal => {
+        uniqueRecipes.add(meal.id);
+      });
+    });
+
+    // 최소 14개의 서로 다른 레시피가 있어야 다양성이 있다고 판단
+    return uniqueRecipes.size >= 14;
   }
 }

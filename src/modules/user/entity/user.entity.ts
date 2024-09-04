@@ -80,13 +80,13 @@ import { HealthProfile } from '../../health/entity/health-profile.entity';
 import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
 import { NutritionPlan } from '../../nutrition/entity/nutrition-plan.entity';
 import { MealRecord } from '../../nutrition/entity/meal-record.entity';
-import { ExerciseRecord } from '../../exercise/entity/exercise-record.entity';
+import { ExerciseRecord } from '../../exercise-tracking/entity/exercise-record.entity';
 import { HealthCheckup } from '../../health/entity/health-checkup.entity';
 import { HealthReport } from '../../health/entity/health-report.entity';
-import { Allergy } from '../../nutrition/entity/allergy.entity';
+import { Allergy } from '../../allergy-management/entity/allergy-management.entity';
 import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
 import { CalorieCalculation } from '../../nutrition/entity/calorie-calculation.entity';
-import { SupplementRecommendation } from '../../supplement/entity/supplement-recommendation.entity';
+import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
 
 @Entity()
 export class User { // '클래스 User' 를 정의함.
@@ -411,6 +411,10 @@ export class User { // '클래스 User' 를 정의함.
 
   @OneToMany(() => HealthProfile, healthProfile => healthProfile.user)
   healthProfiles: HealthProfile[];
+
+  @OneToOne(() => HealthProfile)
+  @JoinColumn()
+  currentHealthProfile: HealthProfile;
 
   @OneToMany(() => NutritionPlan, nutritionPlan => nutritionPlan.user)
   nutritionPlans: NutritionPlan[];
