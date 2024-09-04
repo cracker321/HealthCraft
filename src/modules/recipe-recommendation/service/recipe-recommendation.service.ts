@@ -26,7 +26,7 @@ export class RecipeRecommendationService {
       .andWhere('recipe.protein >= :minProtein', { minProtein: nutritionGoal.proteinTarget / 3 });
 
     dietaryRestrictions.forEach(restriction => {
-      query.andWhere(`recipe.dietaryRestrictions NOT LIKE :restriction`, { restriction: `%${restriction}%` });
+      query.andWhere('recipe.dietaryRestrictions NOT LIKE :restriction', { restriction: `%${restriction}%` });
     });
 
     return query.take(10).getMany();

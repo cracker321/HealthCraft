@@ -97,6 +97,15 @@ export class Recipe {
   @Column({ nullable: true })
   photoUrl?: string;
 
+  @Column('float', { default: 0 })
+  @IsNumber({}, { message: '평점은 숫자여야 합니다.' })
+  @Min(0, { message: '평점은 0 이상이어야 합니다.' })
+  @Max(5, { message: '평점은 5 이하여야 합니다.' })
+  rating: number;
+
+  @Column()
+  season: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
