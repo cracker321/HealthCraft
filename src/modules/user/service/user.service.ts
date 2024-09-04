@@ -40,6 +40,15 @@ import { User } from '../entity/user.entity';
 export class UserService {
 
 
+
+  // < 생성자 함수 >
+
+  // - 'consutructor()
+  //   : - 이 클래스가 생성될 때 자동으로 호출 실행되는 함수.
+  //     - 비유하자면, 만약 새 컴퓨터를 너가 처음 만들었다고 상상해볼 때,
+  //       그 컴퓨터를 처음 켜면, 시스템을 설정하는 여러 초기 작업들이 필요한데,
+  //       바로 그 역할을 하는 것이 생성자 함수임. 컴퓨터가 켜지는 순간, 바로 실행되는 초기 설정임.
+  // - '@
   constructor(
     // User 엔티티에 대한 TypeORM 리포지토리를 주입받습니다.
     @InjectRepository(User)
