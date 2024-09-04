@@ -21,8 +21,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 
 import { Repository } from 'typeorm';
-import { User } from '../entity/user.entity';
+// - TypeORM 의 '내부 클래스 Repository'를 가져오는 부분.
+//   TypeORM 은 DB 에 있는 정보들을 객체 Object 처럼 다룰 수 있게 해주는데, 
+//   그 객체를 직접 저장, 불러오고, 삭제 등 할 수 있게 해주는 도구가 바로 Repository
 
+
+import { User } from '../entity/user.entity';
+// - 'User 엔티티'를 가져옴.
+
+
+// - '@Injectable'
+//   : - 이 'UserService 서비스'를 '다른 외부 클래스들'에서 사용할 수 있도록 해주는 데코레이터 @Injectable.
+//     - NestJS 에서 '모든 Service 클래스들'이 '다른 외부 클래스, 컨트롤러 등'에서 호출될 수 있기 위해서는,
+//       그 서비스 클래스 위에 @Injectable 을 붙여줘야 한다!!
+//       이를 통해 NestJS 가 이 서비스 클래스를 DI 시스템에서 사용할 수 있게 준비해주는 것임!
+//       만약 이 @Injectable 데코레이터가 없다면, 이 서비스는 다른 외부 클래스, 컨트롤러 등에서는 사용할 수 없다!
 @Injectable()
 export class UserService {
 
