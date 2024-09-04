@@ -91,6 +91,7 @@ import { MealPlan } from '../../meal-planner/entity/meal-plan.entity';
 import { HydrationRecord } from '../../hydration-tracking/entity/hydration-record.entity';
 import { HealthGoal } from '../../goal-tracking/entity/health-goal.entity';
 
+
 @Entity()
 export class User { // '클래스 User' 를 정의함.
 
@@ -463,6 +464,16 @@ export class User { // '클래스 User' 를 정의함.
 
   @OneToMany(() => HealthGoal, healthGoal => healthGoal.user)
   healthGoals: HealthGoal[];
+
+  @Column('float', { nullable: true })
+  weight?: number;
+
+  @Column('int', { nullable: true })
+  age?: number;
+
+  @Column({ default: 'maintenance' })
+  healthGoal: string;
+
 
   // 현재 활성 상태인 HealthProfile을 가리키는 관계 추가
   @OneToOne(() => HealthProfile)
