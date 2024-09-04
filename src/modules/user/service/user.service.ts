@@ -48,7 +48,14 @@ export class UserService {
   //     - 비유하자면, 만약 새 컴퓨터를 너가 처음 만들었다고 상상해볼 때,
   //       그 컴퓨터를 처음 켜면, 시스템을 설정하는 여러 초기 작업들이 필요한데,
   //       바로 그 역할을 하는 것이 생성자 함수임. 컴퓨터가 켜지는 순간, 바로 실행되는 초기 설정임.
-  // - '@
+  // - '@InjectRepository(User)'
+  //   : - 'User 엔티티와 연결된 리포지토리'를 가져오는 코드.
+  //       엔티티는 DB 에서 사용자 User 정보가 어떻게 생겼는지 정의하는 설계도이고,
+  //       여기서는 그 설계도('엔티티')에 맞춰 사용자 User 정보를 다룰 수 있는 '도구(Reository)'를 가져오겠다는 것임.
+  //       즉, '변수 userRepository'를 User 엔티티와 연결된 리포지토리로 주입하여 사용하겠다는 의미임.
+  // - 'private userRepository: Repository<User>'
+  //   : - '변수 userRepository'를 'User 엔티티'와 관련된 리포지토리로 설정하는 것임.
+  //       이제는 이 변수 userRepository 가 이후의 함수들 안에서 계속해서 사용자 User 데이터를 관리하는 데 사용되는 것임.
   constructor(
     // User 엔티티에 대한 TypeORM 리포지토리를 주입받습니다.
     @InjectRepository(User)
