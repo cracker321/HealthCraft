@@ -29,7 +29,10 @@ export class ExerciseRecommendationService {
 
     // 사용자의 건강 목표와 운동 강도에 맞는 운동을 5개 추천합니다.
     return this.exerciseRepository.find({
-      where: { intensityLevel, suitableFor: healthProfile.healthGoal },
+      where: { 
+        intensityLevel, 
+        suitableFor: healthProfile.healthGoal 
+      },
       take: 5
     });
   }
@@ -38,7 +41,7 @@ export class ExerciseRecommendationService {
   async getExercisesForMuscleGroup(muscleGroup: string): Promise<Exercise[]> {
     // 지정된 근육군을 타겟팅하는 운동을 5개 추천합니다.
     return this.exerciseRepository.find({
-      where: { targetMuscleGroup: muscleGroup },
+      where: { targetMuscleGroups: muscleGroup },
       take: 5
     });
   }
@@ -47,8 +50,30 @@ export class ExerciseRecommendationService {
   async getExercisesByCalorieBurn(targetCalories: number): Promise<Exercise[]> {
     // 목표 칼로리 소모량에 가장 근접한 운동을 5개 추천합니다.
     return this.exerciseRepository.find({
-      where: { caloriesBurnedPerHour: targetCalories },
+      order: {
+        caloriesBurnedPerHour: 'DESC'
+      },
+      where: {
+        caloriesBurnedPerHour: targetCalories
+      },
       take: 5
     });
+  }
+
+  // 새로운 운동 추가 메서드
+  async addExercise(exerciseData: Partial<Exercise>): Promise<Exercise> {
+    const exercise = this.exerciseRepository.create(exerciseData);
+    return this.exerciseRepository.save(exercise);
+  }
+
+  // 운동 정보 업데이트 메서드
+  async updateExercise(id: string, exerciseData: Partial<Exercise>): Promise<Exercise> {
+    await this.exerciseRepository.update(id, exerciseData);
+    return this.exerciseRepository.findOne({ where: { id } });
+  }
+
+  // 운동 삭제 메서드
+  async deleteExercise(id: string): Promise<void> {
+    await this.exerciseRepository.delete(id);
   }
 }
