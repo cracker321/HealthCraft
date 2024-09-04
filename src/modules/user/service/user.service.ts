@@ -109,7 +109,7 @@ export class UserService {
 
 
 
-    // User 엔티티의 인스턴스를 생성합니다.
+    // < 새로운 사용자 User 객체를 생성 >
     
     // - 'this.userRepository.create(userData)'
     //   : - 전달받은 '새로운 사용자 User 정보를 담고 있는 객체 userData'를 사용하여
@@ -126,13 +126,28 @@ export class UserService {
     //           이 User 객체를 DB 에 저장하지 않고, 단순히 웹서비스 사용자가 화면에 입력한 데이터를 전달받아 
     //           그 데이터를 사용하여 새로운 User 객체만 생성함.
     //           즉, 새로운 사용자 User 객체 데이터가 아직 DB 에 저장되지 않고, 메모리 상에 새로운 User 객체가 만들어지는 단계임.
+    //           즉, 새로운 사용자 User 객체를 준비만 한 것임.
     //         - 비유하자면, 상상해봐, 네가 새로운 친구의 프로필을 적기 위해 종이를 꺼낸다고 생각하면,
     //           create() 메소드는 그 종이를 꺼내고, 친구의 이름과 연락처를 적는 과정임.
     //           하지만 아직 그 종이를 친구 목록에 정식으로 추가한 건 아니고, 그저 새 친구 정보를 적어놓은 상태일 뿐임.
     // - 'const user'
-    //   : 새로 만들어진 
+    //   : 새로 만들어진 사용자 User 객체를 변수 User 에 담음.
     const user = this.userRepository.create(userData);
-    // 생성된 사용자 정보를 데이터베이스에 저장하고 그 결과를 반환합니다.
+
+
+
+
+
+    // < 새로운 사용자 User 객체를 DB 에 저장 및 반환 >
+
+    // - 'save(user)'
+    //   : 새로운 사용자 User 객체를 DB 에 저장하고, 
+    //     ***중요***
+    //     그 저장한 사용자 User 객체를 '반환'해준다!!
+    // - 'return'
+    //   : 'save(user)'메소드가 새로운 사용자 User 객체를 DB 에 저장하고, 
+    //     곧바로 '반환'한 그 새로운 사용자 User 객체를,
+    //     이제 이 메소드의 return 문이 그 새로운 사용자 User 객체를 '반환'하는 것임!!
     return this.userRepository.save(user);
   }
 
