@@ -97,7 +97,15 @@ export class UserService {
   //     - 비유하자면, 마치 내가 도서관에서 사서에게 책을 찾아달라고 요청하고, 사서가 내가 요청한 그 책을 찾으면,
   //       내게 그 책을 가져다줄 것을 약속하는 것임.
   async create(userData: Partial<User>): Promise<User> {
+
+
+
     // User 엔티티의 인스턴스를 생성합니다.
+    
+    // - 'this.userRepository.create(userData)'
+    //   : 전달받은 '새로운 사용자 User 정보를 담고 있는 객체 userData'를 사용하여
+    // - 'const user'
+    //   : 새로 만들어진 
     const user = this.userRepository.create(userData);
     // 생성된 사용자 정보를 데이터베이스에 저장하고 그 결과를 반환합니다.
     return this.userRepository.save(user);
