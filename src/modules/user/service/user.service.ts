@@ -3,15 +3,23 @@
 
 import { Injectable } from '@nestjs/common';
 // - NestJS 의 'Injectable 기능'을 '@nestjs/common 패키지'로부터 불러와서, 
-//   '다른 외부 클래스들'이 이 'UserService 서비스'를 사용할 수 있도록 등록해주는 역할을 함.
-//   NestJS 프레임워크에서 제공하는 '@Injectable 데코레이터'르 가져오는 코드임.
+//   '다른 외부 클래스들(e.g: 다른 서비스 또는 컨트롤러 등)'이 이 'UserService 서비스'를 사용할 수 있도록 등록해주는 역할을 함.
+// - NestJS 프레임워크에서 제공하는 '@Injectable 데코레이터'를 가져오는 코드임.
 //   의존성주입 DI 를 위해 사용됨.
 // - 비유하자면, 만약 우리가 한 마을에 살고 있고, 특정 전문가를 찾고 있다고 상상해 보자.
-//   예를 들어, 마을에서 누구든지 언제든지 이용할 수 있는 의사를 생각해보자. 
-//   그 의사에게 "당신은 언제든지 호출될 준비가 되었습니다."라고 명시해두는 게 바로 이 @Injectable이야. 
-//   그 의사는 이제 마을 주민들이 언제든지 불러서 사용할 수 있는 상태가 된 거지.
+//   예를 들어, 마을에서 누구든지 언제든지 이용할 수 있는 의사('UserService 서비스')를 생각해보자.
+//   그 의사('UserService 서비스')에게 "당신은 언제든지 호출될 준비가 되었습니다."라고 명시해두는 게 바로 이 @Injectable 임.
+//   그 의사('UserService 서비스')는 이제 마을 주민들이 언제든지 불러서 사용할 수 있는 상태가 된 것임.
 
 import { InjectRepository } from '@nestjs/typeorm';
+// - NestJS 의 '@nestjs/typeorm 패키지'로부터 '@InjectRepository 데코레이터'를 불러오는 것.
+//   TypeORM 은 DB와 상호작용하는 ORM 도구로, 이 @InjectRepository 데코레이터는 
+//   '특정 엔티티와 연결된 리포지터리를 다른 곳에 주입할 수 있도록' 설정해줌.
+// - 비유하자면, 리포지토리는 마치 우리가 도서관에서 책을 빌리고 반납할 수 있도록 만들어주는 '도서 대출 시스템'과 같음.
+//   도서관에 가면 책이 어딨는지 찾기 어렵지만, 대출 시스템을 사용하면 책을 쉽게 찾고 빌릴 수 있음.
+//   여기서 InjectRepository는 데이터베이스라는 도서관에서 정보를 쉽게 찾을 수 있도록 해주는 도구를 가져오는 것임.
+
+
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 
