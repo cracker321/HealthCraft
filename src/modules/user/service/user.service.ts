@@ -62,7 +62,17 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  // 새로운 사용자를 생성하는 메서드
+
+
+
+  // ===============================================================================================================
+
+
+
+  // < 새로운 사용자를 생성하는 메소드 create() >
+  
+
+  
   async create(userData: Partial<User>): Promise<User> {
     // User 엔티티의 인스턴스를 생성합니다.
     const user = this.userRepository.create(userData);
@@ -70,11 +80,20 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+
+  // ===============================================================================================================
+
+
   // ID로 사용자를 찾는 메서드
   async findOne(id: string): Promise<User> {
     // 주어진 ID로 사용자를 데이터베이스에서 조회합니다.
     return this.userRepository.findOne({ where: { id } });
   }
+
+
+  // ===============================================================================================================
+
+
 
   // 사용자 정보를 업데이트하는 메서드
   async update(id: string, userData: Partial<User>): Promise<User> {
