@@ -72,7 +72,19 @@ export class UserService {
   // < 새로운 사용자를 생성하는 메소드 create() >
   
 
-  
+  // - 'async'
+  //   : - 'async 키워드'는 '비동기적으로 작동하는 함수를 정의할 때 사용됨'.
+  //       즉, DB 작업처럼 시간이 오래 걸릴 수 있는 작업을 수행할 때, 그 작업이 완료될 때까지 기다리지 않고,
+  //       이 함수가 다른 작업을 처리할 수 있도록 도와줌.
+  //     - 비유하자면, 마치 빨래를 돌리면서 요리를 하는 것과 같음.
+  //       빨래가 다 마를 때까지 그냥 기다리기보다, 그 시간을 활용해서 다른 일을 할 수 있도록 하는 것임.
+  //       ***중요***
+  //       이 '메소드 create'도 비동기적으로 동작하므로, 다른 작업이 동시에 진행될 수 있음.
+  // - 'Partial<User>'
+  //   : - 여기서 Partial 은 사용자 User 정보의 '일부'만 전달받아도 괜찮고,
+  //       그 '사용자의 일부 정보'만으로도 새로운 사용자 User 객체를 생성할 수 있다는 의미임.
+  // - 'Promise<User>'
+  //   : - 
   async create(userData: Partial<User>): Promise<User> {
     // User 엔티티의 인스턴스를 생성합니다.
     const user = this.userRepository.create(userData);
