@@ -54,9 +54,12 @@ export class UserService {
   }
 
   // 사용자의 식이 제한을 조회하는 메서드
-  async getUserDietaryRestrictions(userId: string): Promise<DietaryRestriction[]> {
-    const user = await this.findOne(userId);
-    return user.dietaryRestrictions;
+  async getUserDietaryRestrictions(userId: string): Promise<string[]> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['dietaryRestrictions']
+    });
+    return user.dietaryRestrictions.map(restriction => restriction.name);
   }
 
   // 사용자의 알레르기 정보를 조회하는 메서드

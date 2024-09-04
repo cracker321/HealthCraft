@@ -1,30 +1,19 @@
-// Recipe 엔티티:
-
-
-// 요리 레시피 정보를 상세히 저장
-// 레시피 이름, 조리법, 소요 시간, 난이도 등 포함
-// 레시피의 영양 정보 (칼로리, 단백질, 탄수화물, 지방 등) 저장
-// 식단 계획 및 추천 시스템에 활용
-// 연관 관계:
-
-// Ingredient와 M:N 관계 (하나의 레시피는 여러 재료를 포함하고, 하나의 재료는 여러 레시피에 사용될 수 있음)
-// NutritionPlan과 M:N 관계
-
-
+// src/modules/nutrition/entity/recipe.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
-import { IsNotEmpty, IsNumber, Min, IsArray, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsNumber, Min, Max, IsArray, ValidateNested, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Ingredient } from './ingredient.entity';
 
+// 재료의 양을 나타내는 클래스
 class IngredientAmount {
   @IsNotEmpty()
   ingredientId: string;
 
-  @IsNumber()
-  @Min(0)
+  @IsNumber({}, { message: '재료의 양은 숫자여야 합니다.' })
+  @Min(0, { message: '재료의 양은 0 이상이어야 합니다.' })
   amount: number;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: '단위를 입력해주세요.' })
   unit: string;
 }
 
@@ -92,10 +81,16 @@ export class Recipe {
   fat: number;
 
   @Column('simple-array')
+  @IsArray()
+  @IsString({ each: true, message: '각 태그는 문자열이어야 합니다.' })
   tags: string[];
 
   @Column({ nullable: true })
+  @IsString({ message: '사진 URL은 문자열이어야 합니다.' })
   photoUrl?: string;
+
+  @Column('simple-array')
+  dietaryRestrictions: string[];
 
   @Column('float', { default: 0 })
   @IsNumber({}, { message: '평점은 숫자여야 합니다.' })
@@ -104,6 +99,7 @@ export class Recipe {
   rating: number;
 
   @Column()
+  @IsString({ message: '계절은 문자열이어야 합니다.' })
   season: string;
 
   @CreateDateColumn()

@@ -6,6 +6,8 @@ import { MealPlan } from '../entity/meal-plan.entity';
 import { NutritionService } from '../../nutrition/service/nutrition.service';
 import { UserService } from '../../user/service/user.service';
 import { RecipeRecommendationService } from '../../recipe-recommendation/service/recipe-recommendation.service';
+import { Recipe } from '../../nutrition/entity/recipe.entity';
+import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
 
 @Injectable()
 export class MealPlannerService {
@@ -52,7 +54,7 @@ export class MealPlannerService {
   }
 
   // 식단 생성 로직을 구현하는 메서드
-  private generateMeals(recipes: any[], nutritionGoal: any, dietaryRestrictions: string[]): any[] {
+  private generateMeals(recipes: Recipe[], nutritionGoal: NutritionGoal, dietaryRestrictions: string[]): any[] {
     const meals = [];
     const daysInWeek = 7;
     const mealsPerDay = 3; // 아침, 점심, 저녁
@@ -71,7 +73,7 @@ export class MealPlannerService {
   }
 
   // 레시피를 필터링하는 메서드
-  private filterRecipes(recipes: any[], nutritionGoal: any, dietaryRestrictions: string[]): any[] {
+  private filterRecipes(recipes: Recipe[], nutritionGoal: NutritionGoal, dietaryRestrictions: string[]): Recipe[] {
     return recipes.filter(recipe => {
       // 식이 제한 사항 체크
       const meetsRestrictions = dietaryRestrictions.every(restriction => 
@@ -90,49 +92,8 @@ export class MealPlannerService {
   }
 
   // 무작위로 레시피를 선택하는 메서드
-  private selectRandomRecipe(recipes: any[]): any {
+  private selectRandomRecipe(recipes: Recipe[]): Recipe {
     const randomIndex = Math.floor(Math.random() * recipes.length);
     return recipes[randomIndex];
-  }
-
-  // 식단 계획의 영양 정보를 계산하는 메서드
-  async calculateMealPlanNutrition(mealPlan: MealPlan): Promise<any> {
-    let totalCalories = 0;
-    let totalProtein = 0;
-    let totalCarbs = 0;
-    let totalFat = 0;
-
-    mealPlan.meals.forEach(day => {
-      day.forEach(meal => {
-        totalCalories += meal.calories;
-        totalProtein += meal.protein;
-        totalCarbs += meal.carbs;
-        totalFat += meal.fat;
-      });
-    });
-
-    return {
-      totalCalories,
-      totalProtein,
-      totalCarbs,
-      totalFat,
-      averageDailyCalories: totalCalories / 7,
-      averageDailyProtein: totalProtein / 7,
-      averageDailyCarbs: totalCarbs / 7,
-      averageDailyFat: totalFat / 7,
-    };
-  }
-
-  // 식단 계획의 다양성을 확인하는 메서드
-  checkMealPlanDiversity(mealPlan: MealPlan): boolean {
-    const uniqueRecipes = new Set();
-    mealPlan.meals.forEach(day => {
-      day.forEach(meal => {
-        uniqueRecipes.add(meal.id);
-      });
-    });
-
-    // 최소 14개의 서로 다른 레시피가 있어야 다양성이 있다고 판단
-    return uniqueRecipes.size >= 14;
   }
 }

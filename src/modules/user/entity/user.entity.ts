@@ -87,6 +87,7 @@ import { Allergy } from '../../allergy-management/entity/allergy-management.enti
 import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
 import { CalorieCalculation } from '../../nutrition/entity/calorie-calculation.entity';
 import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
+import { MealPlan } from '../../meal-planner/entity/meal-plan.entity';
 
 @Entity()
 export class User { // '클래스 User' 를 정의함.
@@ -445,6 +446,9 @@ export class User { // '클래스 User' 를 정의함.
 
   @OneToMany(() => SupplementRecommendation, supplementRecommendation => supplementRecommendation.user)
   supplementRecommendations: SupplementRecommendation[];
+
+  @OneToMany(() => MealPlan, mealPlan => mealPlan.user)
+  mealPlans: MealPlan[];
 
   // 현재 활성 상태인 HealthProfile을 가리키는 관계 추가
   @OneToOne(() => HealthProfile)
