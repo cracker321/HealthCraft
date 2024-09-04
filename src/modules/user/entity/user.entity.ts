@@ -88,6 +88,7 @@ import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.e
 import { CalorieCalculation } from '../../nutrition/entity/calorie-calculation.entity';
 import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
 import { MealPlan } from '../../meal-planner/entity/meal-plan.entity';
+import { HydrationRecord } from '../../hydration-tracking/entity/hydration-record.entity';
 
 @Entity()
 export class User { // '클래스 User' 를 정의함.
@@ -189,6 +190,15 @@ export class User { // '클래스 User' 를 정의함.
   @Column()
   @IsEnum(['male', 'female', 'other'], { message: '유효한 성별을 선택해주세요.' })
   gender: string;
+
+  @Column('float', { default: 2000 })
+  hydrationGoal: number;
+
+  @Column({ default: 'moderate' })
+  activityLevel: string;
+
+  @OneToMany(() => HydrationRecord, hydrationRecord => hydrationRecord.user)
+  hydrationRecords: HydrationRecord[];
 
 
   // - @CreateDateColumn() 데코레이터
