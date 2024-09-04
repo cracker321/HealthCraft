@@ -50,4 +50,26 @@ export class GoalTrackingService {
       relations: ['progresses']
     });
   }
+
+  // 목표 달성 추천사항 제공 메서드
+  async getGoalRecommendations(goalId: string): Promise<string[]> {
+    const goal = await this.healthGoalRepository.findOne({ where: { id: goalId } });
+    const achievement = await this.calculateGoalAchievement(goalId);
+
+    const recommendations = [];
+
+    if (achievement < 50) {
+      recommendations.push("목표를 더 작은 단계로 나누어 보세요");
+      recommendations.push("매일 목표를 위해 노력하는 시간을 정해보세요");
+    } else if (achievement < 80) {
+      recommendations.push("잘 하고 있습니다! 현재의 습관을 유지하세요");
+      recommendations.push("작은 성과도 축하하며 동기부여를 해보세요");
+    } else {
+      recommendations.push("목표 달성이 눈앞입니다! 마지막 힘을 내세요");
+      recommendations.push("다음 목표를 생각해보는 것은 어떨까요?");
+    }
+
+    recommendations.push(`${goal.goalType} 활동의 일관성을 유지하세요`);
+    return recommendations;
+  }
 }
