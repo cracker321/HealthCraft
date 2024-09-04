@@ -194,10 +194,19 @@ export class UserService {
   //   : - 사용자의 id 를 '매개변수'로 받음.
   //     - 'id'는 사용자들을 식별할 수 있는 유일한 값이기 때문에, 이 id 값을 통해 특정 사용자를 정확히 찾을 수 있음.
 
+  // ***중요***
   // - 'Promise<User>'
-  //   : 
+  //   : - async 가 붙은 비동기 메소드 findOne 이기 떄문에, 이 메소드는 해당 id 의 사용자를 DB 에서 찾는 작업을 완료하기 전까지는
+  //       Promise 객체를 반환하고,
+  //       DB 작업이 완료되면, 그 때 비로소 DB 에서 찾아온 해당 id 사용자 User 객체를 최종적으로 반환함.
 
   // - this.userRepository.findOne()
+  //   : - 'User 엔티티'와 연결된 'userRepository 리포'를 내부에 있는
+  //       TypeORM 에서 제공하는 findOne() 메소드를 사용하여
+  //       조건에 맞는 데이터를 DB 에서 찾아서 ***'반환해줌'*** !!!
+
+  // - '{ where: { id }}'
+  //   : - 
 
 
   // ID로 사용자를 찾는 메서드
