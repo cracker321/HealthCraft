@@ -1,9 +1,7 @@
-// src/modules/auth/service/auth.service.ts
-
 import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, MoreThan } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '../../user/entity/user.entity';
 import { SignUpDto } from '../dto/signup.dto';
@@ -28,9 +26,9 @@ export class AuthService {
   }
 
   async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
-    const { usernameOrEmail, password } = signInDto;
+    const { emailOrUsername, password } = signInDto;
     const user = await this.userRepository.findOne({
-      where: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+      where: [{ username: emailOrUsername }, { email: emailOrUsername }]
     });
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -65,7 +63,7 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Invalid or expired password reset token');
     }
-    user.password = await bcrypt.hash(resetPasswordDto.password, 10);
+    user.password = await bcrypt.hash(resetPasswordDto.newPassword, 10);
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
     await this.userRepository.save(user);

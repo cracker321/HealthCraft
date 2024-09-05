@@ -1,12 +1,10 @@
-// src/modules/diet-recommendation/service/diet-recommendation.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Recipe } from '../../nutrition/entity/recipe.entity';
 import { UserService } from '../../user/service/user.service';
 import { NutritionAnalysisService } from '../../nutrition-analysis/service/nutrition-analysis.service';
-import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
+import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
 
 @Injectable()
 export class DietRecommendationService {

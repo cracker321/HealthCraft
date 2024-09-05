@@ -1,5 +1,3 @@
-// src/modules/supplement-recommendation/supplement-recommendation.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,7 +16,7 @@ export class SupplementRecommendationService {
   ) {}
 
   // 개인화된 영양제 추천 메서드
-  async recommendSupplements(userId: string): Promise<SupplementRecommendation[]> {
+  async recommendSupplement(userId: string): Promise<SupplementRecommendation[]> {
     const user = await this.userService.findOne(userId);
     const nutritionAnalysis = await this.nutritionAnalysisService.analyzeNutritionIntake(userId, new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date());
     

@@ -12,7 +12,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, IsOptional } from 'class-validator';
 import { User } from '../../user/entity/user.entity';
-import { NutrientInfo } from '../../supplement/entity/nutrient-info.entity';
+import { NutrientInfo } from '../../nutrient-info/entity/nutrient-info.entity';
 
 @Entity()
 export class SupplementRecommendation {

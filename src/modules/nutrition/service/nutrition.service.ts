@@ -1,4 +1,4 @@
-// src/modules/nutrition/nutrition.service.ts
+// src/modules/nutrition/service/nutrition.service.ts
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,6 +8,7 @@ import { MealRecord } from '../entity/meal-record.entity';
 import { FoodDatabase } from '../entity/food-database.entity';
 import { Recipe } from '../entity/recipe.entity';
 import { UserService } from '../../user/service/user.service';
+import { CreateMealPlanDto } from '../dto/create-meal-plan.dto';
 
 @Injectable()
 export class NutritionService {
@@ -23,48 +24,73 @@ export class NutritionService {
     private userService: UserService
   ) {}
 
-  // 영양 목표 생성 메서드
-  async createNutritionGoal(userId: string, goalData: Partial<NutritionGoal>): Promise<NutritionGoal> {
+  // 영양 분석 메서드
+  async analyzeNutrition(userId: string): Promise<any> {
     const user = await this.userService.findOne(userId);
-    const goal = this.nutritionGoalRepository.create({ ...goalData, user });
-    return this.nutritionGoalRepository.save(goal);
-  }
-
-  // 식사 기록 생성 메서드
-  async recordMeal(userId: string, mealData: Partial<MealRecord>): Promise<MealRecord> {
-    const user = await this.userService.findOne(userId);
-    const meal = this.mealRecordRepository.create({ ...mealData, user });
-    return this.mealRecordRepository.save(meal);
-  }
-
-  // 식이 제한에 맞는 레시피 조회 메서드
-  async getRecipes(dietRestrictions: string[]): Promise<Recipe[]> {
-    return this.recipeRepository.find({
-      where: {
-        dietaryRestrictions: {
-          $nin: dietRestrictions
-        }
-      }
-    });
-  }
-
-  // 선택된 음식의 총 칼로리 계산 메서드
-  async calculateCalories(foodIds: string[]): Promise<number> {
-    const foods = await this.foodDatabaseRepository.findByIds(foodIds);
-    return foods.reduce((total, food) => total + food.caloriesPer100g, 0);
-  }
-
-  // 현재 영양 목표 조회 메서드
-  async getCurrentNutritionGoal(userId: string): Promise<NutritionGoal> {
-    const user = await this.userService.findOne(userId);
-    return this.nutritionGoalRepository.findOne({
+    const mealRecords = await this.mealRecordRepository.find({ 
       where: { user: { id: userId } },
-      order: { createdAt: 'DESC' }
+      relations: ['foodItems']
     });
+    
+    // 여기서 실제 영양 분석 로직을 구현합니다.
+    // 예: 총 칼로리, 단백질, 탄수화물, 지방 등을 계산
+    const analysis = {
+      totalCalories: 0,
+      totalProtein: 0,
+      totalCarbs: 0,
+      totalFat: 0
+    };
+
+    mealRecords.forEach(record => {
+      record.foodItems.forEach(food => {
+        analysis.totalCalories += food.calories;
+        analysis.totalProtein += food.protein;
+        analysis.totalCarbs += food.carbs;
+        analysis.totalFat += food.fat;
+      });
+    });
+
+    return analysis;
   }
 
-  // 식품 데이터베이스에서 음식 정보 조회 메서드
-  async getFoodItem(foodId: string): Promise<FoodDatabase> {
-    return this.foodDatabaseRepository.findOne({ where: { id: foodId } });
+  // 식단 추천 메서드
+  async recommendMeal(userId: string): Promise<Recipe[]> {
+    const user = await this.userService.findOne(userId);
+    const nutritionGoal = await this.nutritionGoalRepository.findOne({ 
+      where: { user: { id: userId } } 
+    });
+
+    // 사용자의 영양 목표에 맞는 레시피를 추천합니다.
+    const recommendedRecipes = await this.recipeRepository.find({
+      where: {
+        calories: nutritionGoal.dailyCalorieTarget / 3, // 하루 3끼 기준
+        protein: nutritionGoal.proteinTarget / 3,
+        carbs: nutritionGoal.carbTarget / 3,
+        fat: nutritionGoal.fatTarget / 3
+      },
+      take: 5 // 상위 5개 레시피만 추천
+    });
+
+    return recommendedRecipes;
+  }
+
+  // 칼로리 계산 메서드
+  async calculateCalories(foodItems: string[]): Promise<number> {
+    const foods = await this.foodDatabaseRepository.findByIds(foodItems);
+    return foods.reduce((total, food) => total + food.calories, 0);
+  }
+
+  // 식단 플래너 메서드
+  async createMealPlan(userId: string, mealPlanData: CreateMealPlanDto): Promise<any> {
+    const user = await this.userService.findOne(userId);
+    const mealPlan = new MealRecord();
+    mealPlan.user = user;
+    mealPlan.date = mealPlanData.date;
+    mealPlan.mealType = mealPlanData.mealType;
+    
+    const foodItems = await this.foodDatabaseRepository.findByIds(mealPlanData.foodItemIds);
+    mealPlan.foodItems = foodItems;
+
+    return this.mealRecordRepository.save(mealPlan);
   }
 }
