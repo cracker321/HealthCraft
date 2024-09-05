@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { HealthProfile } from '../../health/entity/health-profile.entity';
 import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
-import { Allergy } from '../../allergy-management/entity/allergy-management.entity';
 
 
 @Injectable()
@@ -60,22 +59,6 @@ export class UserService {
       relations: ['dietaryRestrictions']
     });
     return user.dietaryRestrictions.map(restriction => restriction.name);
-  }
-
-  // 사용자의 알레르기 정보를 조회하는 메서드
-  async getUserAllergies(userId: string): Promise<Allergy[]> {
-    // 사용자를 조회하고 관련된 알레르기 정보를 함께 가져옵니다.
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['allergies'],
-    });
-    
-    // user가 null이 아닌지 확인
-    if (!user) {
-      throw new Error('사용자를 찾을 수 없습니다.');
-    }
-    
-    return user.allergies;
   }
 
   

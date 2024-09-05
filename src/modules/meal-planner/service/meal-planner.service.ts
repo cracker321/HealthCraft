@@ -3,12 +3,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MealPlan } from './entity/meal-plan.entity';
-import { NutritionService } from '../nutrition/service/nutrition.service';
-import { UserService } from '../user/service/user.service';
-import { RecipeRecommendationService } from '../recipe-recommendation/service/recipe-recommendation.service';
-import { Recipe } from '../nutrition/entity/recipe.entity';
-import { NutritionGoal } from '../nutrition/entity/nutrition-goal.entity';
+import { MealPlan } from '../entity/meal-plan.entity';
+import { NutritionService } from '../../nutrition/service/nutrition.service';
+import { UserService } from '../../user/service/user.service';
+import { RecipeRecommendationService } from '../../recipe-recommendation/service/recipe-recommendation.service';
+import { Recipe } from '../../nutrition/entity/recipe.entity';
+import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
 
 @Injectable()
 export class MealPlannerService {

@@ -3,10 +3,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { HealthProfile } from './entity/health-profile.entity';
-import { HealthCheckup } from './entity/health-checkup.entity';
-import { HealthReport } from './entity/health-report.entity';
-import { UserService } from '../user/service/user.service';
+import { HealthProfile } from '../entity/health-profile.entity';
+import { HealthCheckup } from '../entity/health-checkup.entity';
+import { HealthReport } from '../entity/health-report.entity';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class HealthService {

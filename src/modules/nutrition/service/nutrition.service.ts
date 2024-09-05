@@ -3,11 +3,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NutritionGoal } from './entity/nutrition-goal.entity';
-import { MealRecord } from './entity/meal-record.entity';
-import { FoodDatabase } from './entity/food-database.entity';
-import { Recipe } from './entity/recipe.entity';
-import { UserService } from '../user/service/user.service';
+import { NutritionGoal } from '../entity/nutrition-goal.entity';
+import { MealRecord } from '../entity/meal-record.entity';
+import { FoodDatabase } from '../entity/food-database.entity';
+import { Recipe } from '../entity/recipe.entity';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class NutritionService {

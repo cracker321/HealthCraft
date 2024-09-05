@@ -447,9 +447,6 @@ export class User { // '클래스 User' 를 정의함.
   @OneToMany(() => HealthReport, healthReport => healthReport.user)
   healthReports: HealthReport[];
 
-  @OneToMany(() => Allergy, allergy => allergy.user)
-  allergies: Allergy[];
-
   @OneToMany(() => DietaryRestriction, dietaryRestriction => dietaryRestriction.user)
   dietaryRestrictions: DietaryRestriction[];
 
@@ -475,8 +472,4 @@ export class User { // '클래스 User' 를 정의함.
   healthGoal: string;
 
 
-  // 현재 활성 상태인 HealthProfile을 가리키는 관계 추가
-  @OneToOne(() => HealthProfile)
-  @JoinColumn()
-  currentHealthProfile: HealthProfile;
 }
