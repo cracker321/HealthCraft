@@ -5,7 +5,8 @@ import { Repository } from 'typeorm';
 import { Recipe } from '../../nutrition/entity/recipe.entity';
 import { UserService } from '../../user/service/user.service';
 import { NutritionAnalysisService } from '../../nutrition-analysis/service/nutrition-analysis.service';
-import { DietaryRestriction } from '../../dietary-restriction/interfaces/dietary-restriction.interface';
+import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
+
 
 @Injectable()
 export class DietRecommendationService {

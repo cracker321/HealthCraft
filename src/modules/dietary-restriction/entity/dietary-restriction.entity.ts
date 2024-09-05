@@ -1,6 +1,5 @@
-// src/modules/dietary-restriction/entity/dietary-restriction.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from '../../user/entity/user.entity';
+import { User } from '../../user/entity/user.entity'; // User와의 연관관계 설정
 
 @Entity()
 export class DietaryRestriction {
@@ -14,10 +13,10 @@ export class DietaryRestriction {
   type: string; // 예: 'vegetarian', 'vegan', 'gluten-free', 'lactose-free', 'nut-free' 등
 
   @Column()
-  name: string;
+  name: string; // 제한 사항의 이름
 
   @Column({ nullable: true })
-  description: string;
+  description: string; // 제한 사항에 대한 추가 설명
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
