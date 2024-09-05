@@ -2,7 +2,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Exercise {
+export class ExerciseRecommendation {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

@@ -1,7 +1,4 @@
-import { Injectable } from '@nestjs/common';
 
-@Injectable()
-export class AuthService {}
 // src/modules/auth/auth.service.ts
 import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -9,11 +6,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { User } from '../user/entity/user.entity';
-import { SignUpDto } from './dto/signup.dto';
-import { SignInDto } from './dto/signin.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { FindIdDto } from './dto/find-id.dto';
+import { SignUpDto } from '../dto/signup.dto';
+import { SignInDto } from '../dto/signin.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { ForgotPasswordDto } from '../dto/forgot-password.dto';
+import { FindIdDto } from '../dto/find-id.dto';
 
 @Injectable()
 export class AuthService {

@@ -2,21 +2,23 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Exercise } from '../entity/exercise.entity';
+import { ExerciseRecommendation } from '../entity/exercise-recommendation.entity';
 import { UserService } from '../../user/service/user.service';
 import { HealthService } from '../../health/service/health.service';
+import { CreateExerciseRecommendationDto } from '../dto/create-exercise-recommendation.dto';
+import { UpdateExerciseRecommendationDto } from '../dto/update-exercise-recommendation.dto';
 
 @Injectable()
 export class ExerciseRecommendationService {
   constructor(
-    @InjectRepository(Exercise)
-    private exerciseRepository: Repository<Exercise>,
+    @InjectRepository(ExerciseRecommendation)
+    private exerciseRepository: Repository<ExerciseRecommendation>,
     private userService: UserService,
     private healthService: HealthService
   ) {}
 
   // 사용자 맞춤 운동 추천 메서드
-  async getPersonalizedExercises(userId: string): Promise<Exercise[]> {
+  async getPersonalizedExercises(userId: string): Promise<ExerciseRecommendation[]> {
     // 사용자 정보와 최신 건강 프로필을 조회합니다.
     const user = await this.userService.findOne(userId);
     const healthProfile = await this.healthService.getLatestHealthProfile(userId);
@@ -38,7 +40,7 @@ export class ExerciseRecommendationService {
   }
 
   // 특정 근육군을 타겟팅하는 운동 추천 메서드
-  async getExercisesForMuscleGroup(muscleGroup: string): Promise<Exercise[]> {
+  async getExercisesForMuscleGroup(muscleGroup: string): Promise<ExerciseRecommendation[]> {
     // 지정된 근육군을 타겟팅하는 운동을 5개 추천합니다.
     return this.exerciseRepository.find({
       where: { targetMuscleGroups: muscleGroup },
@@ -47,7 +49,7 @@ export class ExerciseRecommendationService {
   }
 
   // 칼로리 소모량 기반 운동 추천 메서드
-  async getExercisesByCalorieBurn(targetCalories: number): Promise<Exercise[]> {
+  async getExercisesByCalorieBurn(targetCalories: number): Promise<ExerciseRecommendation[]> {
     // 목표 칼로리 소모량에 가장 근접한 운동을 5개 추천합니다.
     return this.exerciseRepository.find({
       order: {
@@ -61,14 +63,14 @@ export class ExerciseRecommendationService {
   }
 
   // 새로운 운동 추가 메서드
-  async addExercise(exerciseData: Partial<Exercise>): Promise<Exercise> {
-    const exercise = this.exerciseRepository.create(exerciseData);
+  async addExercise(createExerciseRecommendationDto: CreateExerciseRecommendationDto): Promise<ExerciseRecommendation> {
+    const exercise = this.exerciseRepository.create(createExerciseRecommendationDto);
     return this.exerciseRepository.save(exercise);
   }
 
   // 운동 정보 업데이트 메서드
-  async updateExercise(id: string, exerciseData: Partial<Exercise>): Promise<Exercise> {
-    await this.exerciseRepository.update(id, exerciseData);
+  async updateExercise(id: string, updateExerciseRecommendationDto: UpdateExerciseRecommendationDto): Promise<ExerciseRecommendation> {
+    await this.exerciseRepository.update(id, updateExerciseRecommendationDto);
     return this.exerciseRepository.findOne({ where: { id } });
   }
 
