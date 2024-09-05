@@ -19,7 +19,6 @@ export class UserController {
   async updateProfile(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
-
   // 기초 건강 정보 입력 엔드포인트
   @Post('health-info/:id')
   async addHealthInfo(@Param('id') id: string, @Body() healthInfoDto: any) {

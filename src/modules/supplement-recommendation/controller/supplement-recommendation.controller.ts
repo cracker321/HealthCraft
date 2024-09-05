@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
 export class SupplementRecommendationController {
   constructor(private readonly supplementService: SupplementRecommendationService) {}
 
+  
   // 영양제 추천 엔드포인트
   @Get('recommendation/:userId')
   async getSupplementRecommendation(@Param('userId') userId: string) {

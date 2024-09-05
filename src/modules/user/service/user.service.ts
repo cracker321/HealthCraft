@@ -1,10 +1,11 @@
 // src/modules/user/service/user.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { HealthProfile } from '../../health/entity/health-profile.entity';
 import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 
 @Injectable()
@@ -26,16 +27,21 @@ export class UserService {
 
   // ID로 사용자를 찾는 메서드
   async findOne(id: string): Promise<User> {
-    return this.userRepository.findOne({ 
+    const user = await this.userRepository.findOne({ 
       where: { id },
       relations: ['healthProfiles', 'dietaryRestrictions', 'allergies']
     });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   // 사용자 정보를 업데이트하는 메서드
-  async update(id: string, userData: Partial<User>): Promise<User> {
-    await this.userRepository.update(id, userData);
-    return this.findOne(id);
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.findOne(id);
+    Object.assign(user, updateUserDto);
+    return this.userRepository.save(user);
   }
 
   // 사용자의 건강 프로필을 생성하는 메서드

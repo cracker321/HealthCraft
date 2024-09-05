@@ -3,12 +3,12 @@
 import { IsNumber, IsString, IsEnum, Min, Max } from 'class-validator';
 
 export class CreateHealthProfileDto {
-  @IsNumber({}, { message: '키는 숫자여야 합니다.' })
+  @IsNumber()
   @Min(0, { message: '키는 0보다 커야 합니다.' })
   @Max(300, { message: '키는 300cm를 초과할 수 없습니다.' })
   height: number;
 
-  @IsNumber({}, { message: '체중은 숫자여야 합니다.' })
+  @IsNumber()
   @Min(0, { message: '체중은 0보다 커야 합니다.' })
   @Max(500, { message: '체중은 500kg을 초과할 수 없습니다.' })
   weight: number;
