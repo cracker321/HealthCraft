@@ -52,11 +52,6 @@ export class ExerciseTrackingService {
     // 기존 코드 유지
   }
 
-  // 운동 추천 메서드
-  async getExerciseRecommendations(userId: string): Promise<string[]> {
-    // 기존 코드 유지
-  }
-
   // 운동 기록 업데이트 메서드
   async updateExerciseRecord(recordId: string, updateExerciseRecordDto: UpdateExerciseRecordDto): Promise<ExerciseRecord> {
     await this.exerciseRecordRepository.update(recordId, updateExerciseRecordDto);

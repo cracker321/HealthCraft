@@ -3,10 +3,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SupplementRecommendation } from './entity/supplement-recommendation.entity';
-import { UserService } from '../user/service/user.service';
-import { NutritionAnalysisService } from '../nutrition-analysis/service/nutrition-analysis.service';
-import { HealthProfile } from '../health/entity/health-profile.entity';
+import { SupplementRecommendation } from '../entity/supplement-recommendation.entity';
+import { UserService } from '../../user/service/user.service';
+import { NutritionAnalysisService } from '../../nutrition-analysis/service/nutrition-analysis.service';
+import { HealthProfile } from '../../health/entity/health-profile.entity';
 
 @Injectable()
 export class SupplementRecommendationService {

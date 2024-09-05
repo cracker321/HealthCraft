@@ -1,4 +1,4 @@
-// src/modules/auth/auth.service.ts
+// src/modules/auth/service/auth.service.ts
 
 import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -20,25 +20,19 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  // 회원가입 메서드
   async signUp(signUpDto: SignUpDto): Promise<User> {
     const { email, username, password } = signUpDto;
-    // 비밀번호 해싱
     const hashedPassword = await bcrypt.hash(password, 10);
-    // 새 사용자 생성 및 저장
     const user = this.userRepository.create({ ...signUpDto, password: hashedPassword });
     return this.userRepository.save(user);
   }
 
-  // 로그인 메서드
   async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
     const { usernameOrEmail, password } = signInDto;
-    // 사용자 찾기
     const user = await this.userRepository.findOne({
       where: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
     });
 
-    // 비밀번호 확인 및 JWT 토큰 생성
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { username: user.username, sub: user.id };
       return {
@@ -48,14 +42,12 @@ export class AuthService {
     throw new UnauthorizedException('Please check your login credentials');
   }
 
-  // 비밀번호 찾기 메서드
   async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<void> {
     const { email } = forgotPasswordDto;
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    // 비밀번호 재설정 토큰 생성 및 저장
     const resetToken = Math.random().toString(36).slice(-8);
     user.resetPasswordToken = resetToken;
     user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
@@ -63,9 +55,7 @@ export class AuthService {
     // 여기서 이메일로 재설정 토큰을 보내야 함
   }
 
-  // 비밀번호 재설정 메서드
   async resetPassword(token: string, resetPasswordDto: ResetPasswordDto): Promise<void> {
-    // 유효한 토큰을 가진 사용자 찾기
     const user = await this.userRepository.findOne({
       where: {
         resetPasswordToken: token,
@@ -75,14 +65,12 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Invalid or expired password reset token');
     }
-    // 새 비밀번호 해싱 및 저장
     user.password = await bcrypt.hash(resetPasswordDto.password, 10);
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
     await this.userRepository.save(user);
   }
 
-  // 아이디 찾기 메서드
   async findId(findIdDto: FindIdDto): Promise<string> {
     const { email } = findIdDto;
     const user = await this.userRepository.findOne({ where: { email } });

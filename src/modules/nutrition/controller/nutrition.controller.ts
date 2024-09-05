@@ -33,9 +33,4 @@ export class NutritionController {
     return this.nutritionService.createMealPlan(userId, mealPlanData);
   }
 
-  // 비건/채식 식단 조회 엔드포인트
-  @Get('vegan-vegetarian-meals')
-  async getVeganVegetarianMeals() {
-    return this.nutritionService.getVeganVegetarianMeals();
-  }
 }

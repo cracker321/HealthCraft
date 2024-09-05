@@ -1,6 +1,6 @@
-// src/modules/auth/auth.controller.ts
+// src/modules/auth/controller/auth.controller.ts
 
-import { Controller, Post, Body, HttpCode, HttpStatus, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Get, UseGuards, Param } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { SignUpDto } from '../dto/signup.dto';
 import { SignInDto } from '../dto/signin.dto';
@@ -41,9 +41,9 @@ export class AuthController {
   }
 
   // 비밀번호 재설정 엔드포인트
-  @Post('reset-password')
-  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-    return this.authService.resetPassword(resetPasswordDto);
+  @Post('reset-password/:token')
+  async resetPassword(@Param('token') token: string, @Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(token, resetPasswordDto);
   }
 
   // 아이디 찾기 엔드포인트

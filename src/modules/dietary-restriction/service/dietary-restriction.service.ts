@@ -1,11 +1,12 @@
-// src/modules/dietary-restriction/dietary-restriction.service.ts
+// src/modules/dietary-restriction/service/dietary-restriction.service.ts
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DietaryRestriction } from '../entity/dietary-restriction.entity';
 import { CreateDietaryRestrictionDto } from '../dto/create-dietary-restriction.dto';
 import { UpdateDietaryRestrictionDto } from '../dto/update-dietary-restriction.dto';
-import { UserService } from '../../user/user.service';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class DietaryRestrictionService {
@@ -14,8 +15,6 @@ export class DietaryRestrictionService {
     private dietaryRestrictionRepository: Repository<DietaryRestriction>,
     private userService: UserService
   ) {}
-
-  
 
   // 식이 제한 생성
   async create(userId: string, createDietaryRestrictionDto: CreateDietaryRestrictionDto): Promise<DietaryRestriction> {

@@ -1,10 +1,12 @@
 // src/modules/diet-recommendation/service/diet-recommendation.service.ts
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Recipe } from '../../nutrition/entity/recipe.entity';
 import { UserService } from '../../user/service/user.service';
 import { NutritionAnalysisService } from '../../nutrition-analysis/service/nutrition-analysis.service';
+import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
 
 @Injectable()
 export class DietRecommendationService {
@@ -27,8 +29,12 @@ export class DietRecommendationService {
     return this.findSuitableRecipes(nutritionAnalysis, user.dietaryRestrictions);
   }
 
-  private async findSuitableRecipes(nutritionAnalysis: any, dietaryRestrictions: string[]): Promise<Recipe[]> {
+  private async findSuitableRecipes(nutritionAnalysis: any, dietaryRestrictions: DietaryRestriction[]): Promise<Recipe[]> {
     // 영양 분석 결과와 식이 제한을 고려한 레시피 검색 로직
-    // ...
+    const restrictionTypes = dietaryRestrictions.map(restriction => restriction.type);
+    
+    return this.recipeRepository.createQueryBuilder('recipe')
+      .where('recipe.dietaryRestrictions && :restrictions', { restrictions: restrictionTypes })
+      .getMany();
   }
 }
