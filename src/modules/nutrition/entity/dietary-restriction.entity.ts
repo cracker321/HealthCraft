@@ -31,6 +31,16 @@ export class DietaryRestriction {
     { message: '유효한 제한 유형을 선택해주세요.' })
   restrictionType: string;
 
+  @Column()
+  type: string; // 예: 'vegetarian', 'vegan', 'gluten-free', 'lactose-free', 'nut-free' 등
+
+  @Column()
+  name: string; // 제한 사항의 이름
+
+  @Column({ nullable: true })
+  description: string; // 제한 사항에 대한 추가 설명
+
+
   @Column('text')
   @IsNotEmpty({ message: '제한 이유는 필수입니다.' })
   reason: string;
