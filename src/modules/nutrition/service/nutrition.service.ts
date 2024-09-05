@@ -32,24 +32,23 @@ export class NutritionService {
       relations: ['foodItems']
     });
     
-    // 여기서 실제 영양 분석 로직을 구현합니다.
-    // 예: 총 칼로리, 단백질, 탄수화물, 지방 등을 계산
     const analysis = {
       totalCalories: 0,
       totalProtein: 0,
       totalCarbs: 0,
       totalFat: 0
     };
-
+  
     mealRecords.forEach(record => {
       record.foodItems.forEach(food => {
-        analysis.totalCalories += food.calories;
-        analysis.totalProtein += food.protein;
-        analysis.totalCarbs += food.carbs;
-        analysis.totalFat += food.fat;
+        // FoodDatabase 엔티티의 필드 이름에 맞게 수정
+        analysis.totalCalories += food.caloriesPer100g;
+        analysis.totalProtein += food.proteinPer100g;
+        analysis.totalCarbs += food.carbsPer100g;
+        analysis.totalFat += food.fatPer100g;
       });
     });
-
+  
     return analysis;
   }
 
@@ -72,6 +71,14 @@ export class NutritionService {
     });
 
     return recommendedRecipes;
+  }
+
+  async getCurrentNutritionGoal(userId: string): Promise<NutritionGoal> {
+    const user = await this.userService.findOne(userId);
+    return this.nutritionGoalRepository.findOne({
+      where: { user: { id: userId } },
+      order: { createdAt: 'DESC' }
+    });
   }
 
   // 칼로리 계산 메서드

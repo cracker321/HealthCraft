@@ -15,12 +15,6 @@ export class HealthController {
     return this.healthService.calculateBMI(userId);
   }
 
-  // BMR 계산 엔드포인트
-  @Get('bmr/:userId')
-  async calculateBMR(@Param('userId') userId: string) {
-    return this.healthService.calculateBMR(userId);
-  }
-
   // 건강 체크업 기록 엔드포인트
   @Post('checkup/:userId')
   async recordCheckup(@Param('userId') userId: string, @Body() checkupData: any) {
@@ -29,7 +23,7 @@ export class HealthController {
 
   // 건강 리포트 생성 엔드포인트
   @Get('report/:userId')
-  async generateHealthReport(@Param('userId') userId: string) {
-    return this.healthService.generateHealthReport(userId);
+  async generateReport(@Param('userId') userId: string) {
+    return this.healthService.generateReport(userId);
   }
 }

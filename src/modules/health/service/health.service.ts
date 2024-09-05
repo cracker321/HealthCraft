@@ -104,4 +104,23 @@ export class HealthService {
       lifestyle: ['Practice stress-reduction techniques']
     };
   }
+
+
+   // BMI 계산 메서드
+   async calculateBMI(userId: string): Promise<number> {
+    const profile = await this.getLatestHealthProfile(userId);
+    if (!profile || !profile.height || !profile.weight) {
+      throw new Error('사용자의 키와 몸무게 정보가 필요합니다.');
+    }
+    const heightInMeters = profile.height / 100;
+    return profile.weight / (heightInMeters * heightInMeters);
+  }
+
+  // 건강 체크업 기록 메서드
+  async recordCheckup(userId: string, checkupData: any): Promise<HealthCheckup> {
+    const user = await this.userService.findOne(userId);
+    const checkup = this.healthCheckupRepository.create({ ...checkupData, user });
+    return this.healthCheckupRepository.save(checkup);
+  }    
+
 }

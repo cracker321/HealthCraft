@@ -49,7 +49,24 @@ export class ExerciseTrackingService {
 
   // 주간 운동 통계 조회 메서드
   async getWeeklyExerciseStats(userId: string): Promise<any> {
-    // 기존 코드 유지
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+    const records = await this.exerciseRecordRepository.find({
+      where: {
+        user: { id: userId },
+        exerciseDate: Between(startDate, endDate)
+      }
+    });
+
+    // 여기에 주간 통계 계산 로직 추가
+    // 예: 총 운동 시간, 총 소모 칼로리, 운동 유형별 분포 등
+
+    return {
+      totalExerciseTime: records.reduce((sum, record) => sum + record.duration, 0),
+      totalCaloriesBurned: records.reduce((sum, record) => sum + record.caloriesBurned, 0),
+      // 기타 통계...
+    };
   }
 
   // 운동 기록 업데이트 메서드
