@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { IsNotEmpty, IsNumber, Min, Max, IsArray, ValidateNested, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Ingredient } from './ingredient.entity';
+import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
 
 // 재료의 양을 나타내는 클래스
 class IngredientAmount {
@@ -101,6 +102,7 @@ export class Recipe {
   @Column()
   @IsString({ message: '계절은 문자열이어야 합니다.' })
   season: string;
+
 
   @CreateDateColumn()
   createdAt: Date;
