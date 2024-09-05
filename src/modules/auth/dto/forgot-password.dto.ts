@@ -1,8 +1,8 @@
 // src/modules/auth/dto/forgot-password.dto.ts
+
 import { IsEmail } from 'class-validator';
 
 export class ForgotPasswordDto {
-  // 이메일 유효성 검사
-  @IsEmail()
+  @IsEmail({}, { message: '유효한 이메일 주소를 입력해주세요.' })
   email: string;
 }

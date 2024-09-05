@@ -1,14 +1,13 @@
-// src/modules/supplement/dto/supplement-recommendation.dto.ts
+// src/modules/supplement-recommendation/dto/supplement-recommendation-request.dto.ts
 
-import { IsString, IsArray } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
-export class SupplementRecommendationDto {
-  @IsString()
-  userId: string;
-
-  @IsArray()
+export class SupplementRecommendationRequestDto {
+  @IsArray({ message: '건강 이슈는 배열 형태여야 합니다.' })
+  @IsString({ each: true, message: '각 건강 이슈는 문자열이어야 합니다.' })
   healthIssues: string[];
 
-  @IsArray()
+  @IsArray({ message: '식이 제한은 배열 형태여야 합니다.' })
+  @IsString({ each: true, message: '각 식이 제한은 문자열이어야 합니다.' })
   dietaryRestrictions: string[];
 }

@@ -17,6 +17,15 @@ export class AllergyResponseDto {
   @Expose()
   symptoms: string[];
 
+  @Expose()
+  treatmentPlan?: string;
+
+  @Expose()
+  emergencyMedications?: string[];
+
+  @Expose()
+  isActive: boolean;
+
   @Exclude()
   userId: string;
 }

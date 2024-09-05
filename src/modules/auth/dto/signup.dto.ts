@@ -1,18 +1,28 @@
 // src/modules/auth/dto/signup.dto.ts
-import { IsEmail, IsString, MinLength } from 'class-validator';
+
+import { IsEmail, IsString, MinLength, IsEnum, IsDate } from 'class-validator';
 
 export class SignUpDto {
-  // 이메일 유효성 검사
-  @IsEmail()
+  @IsEmail({}, { message: '유효한 이메일 주소를 입력해주세요.' })
   email: string;
 
-  // 사용자 이름, 최소 4자 이상
-  @IsString()
-  @MinLength(4)
+  @IsString({ message: '사용자 이름은 문자열이어야 합니다.' })
+  @MinLength(3, { message: '사용자 이름은 최소 3자 이상이어야 합니다.' })
   username: string;
 
-  // 비밀번호, 최소 6자 이상
-  @IsString()
-  @MinLength(6)
+  @IsString({ message: '비밀번호는 문자열이어야 합니다.' })
+  @MinLength(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
   password: string;
+
+  @IsString({ message: '이름은 문자열이어야 합니다.' })
+  firstName: string;
+
+  @IsString({ message: '성은 문자열이어야 합니다.' })
+  lastName: string;
+
+  @IsDate({ message: '유효한 생년월일을 입력해주세요.' })
+  dateOfBirth: Date;
+
+  @IsEnum(['male', 'female', 'other'], { message: '유효한 성별을 선택해주세요.' })
+  gender: string;
 }

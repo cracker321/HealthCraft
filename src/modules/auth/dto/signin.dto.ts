@@ -1,12 +1,12 @@
 // src/modules/auth/dto/signin.dto.ts
-import { IsString } from 'class-validator';
+
+import { IsString, MinLength } from 'class-validator';
 
 export class SignInDto {
-  // 사용자 이름 또는 이메일
-  @IsString()
-  usernameOrEmail: string;
+  @IsString({ message: '이메일 또는 사용자 이름은 문자열이어야 합니다.' })
+  emailOrUsername: string;
 
-  // 비밀번호
-  @IsString()
+  @IsString({ message: '비밀번호는 문자열이어야 합니다.' })
+  @MinLength(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' })
   password: string;
 }
