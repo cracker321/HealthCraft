@@ -52,14 +52,15 @@ export class UserService {
     return this.dietaryRestrictionRepository.save(restriction);
   }
 
-  // 사용자의 식이 제한을 조회하는 메서드
-  async getUserDietaryRestrictions(userId: string): Promise<string[]> {
+   // 사용자의 식이 제한을 조회하는 메서드
+   async getUserDietaryRestrictions(userId: string): Promise<string[]> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: ['dietaryRestrictions']
     });
     return user.dietaryRestrictions.map(restriction => restriction.name);
   }
+}
 
   
 

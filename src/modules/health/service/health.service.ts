@@ -116,11 +116,44 @@ export class HealthService {
     return profile.weight / (heightInMeters * heightInMeters);
   }
 
-  // 건강 체크업 기록 메서드
-  async recordCheckup(userId: string, checkupData: any): Promise<HealthCheckup> {
+  // 건강 체크업 기록 메서드 수정
+  async recordCheckup(userId: string, checkupData: Partial<HealthCheckup>): Promise<HealthCheckup> {
     const user = await this.userService.findOne(userId);
-    const checkup = this.healthCheckupRepository.create({ ...checkupData, user });
+    const checkup = this.healthCheckupRepository.create({
+      ...checkupData,
+      user,
+      checkupDate: checkupData.checkupDate || new Date(), // checkupDate가 제공되지 않은 경우 현재 날짜 사용
+    });
     return this.healthCheckupRepository.save(checkup);
-  }    
+  }
+
+  // 건강 상태 평가 메서드
+  async evaluateHealthStatus(userId: string): Promise<{ bloodPressure: string; cholesterol: string; bloodSugar: string }> {
+    const latestCheckup = await this.healthCheckupRepository.findOne({
+      where: { user: { id: userId } },
+      order: { checkupDate: 'DESC' }
+    });
+
+    if (!latestCheckup) {
+      throw new Error('건강 검진 기록이 없습니다.');
+    }
+
+    return latestCheckup.evaluateHealthStatus();
+  }
+
+  // 이전 검진과 비교 메서드
+  async compareWithPreviousCheckup(userId: string): Promise<{ [key: string]: number } | null> {
+    const checkups = await this.healthCheckupRepository.find({
+      where: { user: { id: userId } },
+      order: { checkupDate: 'DESC' },
+      take: 2
+    });
+
+    if (checkups.length < 2) {
+      return null; // 비교할 이전 검진 기록이 없음
+    }
+
+    return checkups[0].compareWithPrevious(checkups[1]);
+  } 
 
 }

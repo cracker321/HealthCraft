@@ -13,6 +13,9 @@ export class DietaryRestriction {
   @Column()
   type: string; // 예: 'vegetarian', 'vegan', 'gluten-free', 'lactose-free', 'nut-free' 등
 
+  @Column()
+  name: string;
+
   @Column({ nullable: true })
   description: string;
 

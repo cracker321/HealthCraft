@@ -27,7 +27,7 @@ export class NutritionService {
   // 영양 분석 메서드
   async analyzeNutrition(userId: string): Promise<any> {
     const user = await this.userService.findOne(userId);
-    const mealRecords = await this.mealRecordRepository.find({ 
+    const mealRecords = await this.mealRecordRepository.find({
       where: { user: { id: userId } },
       relations: ['foodItems']
     });
@@ -38,25 +38,24 @@ export class NutritionService {
       totalCarbs: 0,
       totalFat: 0
     };
-  
+
     mealRecords.forEach(record => {
       record.foodItems.forEach(food => {
-        // FoodDatabase 엔티티의 필드 이름에 맞게 수정
         analysis.totalCalories += food.caloriesPer100g;
         analysis.totalProtein += food.proteinPer100g;
         analysis.totalCarbs += food.carbsPer100g;
         analysis.totalFat += food.fatPer100g;
       });
     });
-  
+
     return analysis;
   }
 
   // 식단 추천 메서드
   async recommendMeal(userId: string): Promise<Recipe[]> {
     const user = await this.userService.findOne(userId);
-    const nutritionGoal = await this.nutritionGoalRepository.findOne({ 
-      where: { user: { id: userId } } 
+    const nutritionGoal = await this.nutritionGoalRepository.findOne({
+      where: { user: { id: userId } }
     });
 
     // 사용자의 영양 목표에 맞는 레시피를 추천합니다.
@@ -84,15 +83,15 @@ export class NutritionService {
   // 칼로리 계산 메서드
   async calculateCalories(foodItems: string[]): Promise<number> {
     const foods = await this.foodDatabaseRepository.findByIds(foodItems);
-    return foods.reduce((total, food) => total + food.calories, 0);
+    return foods.reduce((total, food) => total + food.caloriesPer100g, 0);
   }
 
   // 식단 플래너 메서드
-  async createMealPlan(userId: string, mealPlanData: CreateMealPlanDto): Promise<any> {
+  async createMealPlan(userId: string, mealPlanData: CreateMealPlanDto): Promise<MealRecord> {
     const user = await this.userService.findOne(userId);
     const mealPlan = new MealRecord();
     mealPlan.user = user;
-    mealPlan.date = mealPlanData.date;
+    mealPlan.eatenAt = mealPlanData.date;
     mealPlan.mealType = mealPlanData.mealType;
     
     const foodItems = await this.foodDatabaseRepository.findByIds(mealPlanData.foodItemIds);

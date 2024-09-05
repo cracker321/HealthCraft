@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DietaryRestriction } from '../entity/dietary-restriction.entity';
+import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
 import { CreateDietaryRestrictionDto } from '../dto/create-dietary-restriction.dto';
 import { UpdateDietaryRestrictionDto } from '../dto/update-dietary-restriction.dto';
 import { UserService } from '../../user/service/user.service';
@@ -45,4 +45,6 @@ export class DietaryRestrictionService {
   async remove(id: string): Promise<void> {
     await this.dietaryRestrictionRepository.delete(id);
   }
+
+  
 }

@@ -1,6 +1,6 @@
 // src/modules/dietary-restriction/dto/create-dietary-restriction.dto.ts
 
-import { IsString, IsEnum, IsDate, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsEnum, IsDate, IsOptional } from 'class-validator';
 
 export class CreateDietaryRestrictionDto {
   @IsString()
@@ -12,6 +12,14 @@ export class CreateDietaryRestrictionDto {
 
   @IsString()
   reason: string;
+
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 
   @IsDate()
   startDate: Date;
