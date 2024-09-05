@@ -14,7 +14,7 @@ import { User } from '../user/entity/user.entity';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     // JWT 모듈 설정
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: 'process.env.JWT_SECRET',
       signOptions: { expiresIn: '1h' },
     }),
     // User 엔티티를 위한 TypeORM 설정
