@@ -28,6 +28,10 @@ export class HealthCheckup {
   @ManyToOne(() => User, user => user.healthCheckups)
   user: User;
 
+
+  @Column('float')
+  height: number; // 키 (cm)
+
   @Column()
   @IsNotEmpty({ message: '검진 날짜는 필수입니다.' })
   @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
@@ -67,6 +71,9 @@ export class HealthCheckup {
   ldlCholesterol: number; // 단위: mg/dL
 
   @Column('float')
+  cholesterol: number; // 총 콜레스테롤
+
+  @Column('float')
   @IsNumber({}, { message: '중성지방은 숫자여야 합니다.' })
   @Min(0, { message: '중성지방은 0 이상이어야 합니다.' })
   triglycerides: number; // 단위: mg/dL
@@ -93,6 +100,8 @@ export class HealthCheckup {
   @CreateDateColumn()
   createdAt: Date;
 
+
+  
   // 건강 상태 평가 메서드
   evaluateHealthStatus(): { bloodPressure: string; cholesterol: string; bloodSugar: string } {
     const status = {
