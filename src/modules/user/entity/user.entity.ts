@@ -83,7 +83,7 @@ import { MealRecord } from '../../nutrition/entity/meal-record.entity';
 import { ExerciseRecord } from '../../exercise-tracking/entity/exercise-record.entity';
 import { HealthCheckup } from '../../health/entity/health-checkup.entity';
 import { HealthReport } from '../../health/entity/health-report.entity';
-import { DietaryRestriction } from '../../nutrition/entity/dietary-restriction.entity';
+import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
 import { CalorieCalculation } from '../../nutrition/entity/calorie-calculation.entity';
 import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
 import { MealPlan } from '../../meal-planner/entity/meal-plan.entity';
