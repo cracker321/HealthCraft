@@ -16,7 +16,7 @@ import { DietaryRestrictionModule } from './modules/dietary-restriction/dietary-
     }),
 
     // 데이터베이스 연결 설정: 환경 변수를 통해 동적으로 설정
-    // TypeORM을 설정합니다. forRootAsync는 비동기 방식으로 환경 변수를 로드하여 설정에 반영합니다.
+    // TypeORM을 설정. forRootAsync는 비동기 방식으로 환경 변수를 로드하여 설정에 반영.
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],  // ConfigModule에서 환경 변수를 가져옴
       inject: [ConfigService],  // ConfigService를 주입하여 환경 변수 사용 가능
