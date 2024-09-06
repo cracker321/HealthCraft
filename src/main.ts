@@ -10,6 +10,7 @@ async function bootstrap() {
     .setDescription('이 프로젝트의 API 명세서입니다.')
     .setVersion('1.0')
     .addTag('API')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
