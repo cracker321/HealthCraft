@@ -1,13 +1,3 @@
-// FoodDatabase 엔티티:
-
-
-// 다양한 음식에 대한 상세 영양 정보 저장
-// 음식 이름, 분류, 영양소 함량, 알레르기 정보 등 포함
-// 식단 계획, 칼로리 계산, 영양 분석 등에 활용
-// 연관 관계:
-
-// MealRecord, Recipe, Ingredient 엔티티들과 관련됨
-// 자체적으로 계층 구조를 가질 수 있음 (예: 식품 카테고리)
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, IsOptional, IsArray } from 'class-validator';
 
@@ -55,12 +45,7 @@ export class FoodDatabase {
   @IsOptional()
   minerals?: { [mineral: string]: number };
 
-  // 알레르기 및 식이 제한 정보
-  @Column('simple-array')
-  @IsOptional()
-  @IsArray({ message: '알레르기 유발 성분은 배열이어야 합니다.' })
-  allergens?: string[];
-
+  // 식이 제한 정보
   @Column('simple-array')
   @IsOptional()
   @IsArray({ message: '식이 제한은 배열이어야 합니다.' })
@@ -70,7 +55,7 @@ export class FoodDatabase {
   @Column('int')
   @IsNumber({}, { message: '일반적인 서빙 크기는 숫자여야 합니다.' })
   @Min(0, { message: '서빙 크기는 0 이상이어야 합니다.' })
-  typicalServingSize: number; // 단위: 그램
+  typicalServingSize: number;  // 단위: 그램
 
   @Column({ nullable: true })
   @IsOptional()
@@ -107,8 +92,6 @@ export class FoodDatabase {
     summary += `단백질 (100g당): ${this.proteinPer100g}g\n`;
     summary += `탄수화물 (100g당): ${this.carbsPer100g}g\n`;
     summary += `지방 (100g당): ${this.fatPer100g}g\n`;
-    
-    // ... (비타민, 미네랄, 알레르기 유발 성분, 식이 제한 등의 정보 추가)
     
     return summary;
   }

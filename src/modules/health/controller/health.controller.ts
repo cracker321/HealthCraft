@@ -1,5 +1,3 @@
-// src/modules/health/health.controller.ts
-
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { HealthCheckupService } from '../service/health-checkup.service';
 import { HealthReportService } from '../service/health-report.service';
@@ -13,9 +11,8 @@ export class HealthController {
   constructor(
     private readonly healthCheckupService: HealthCheckupService,
     private readonly healthReportService: HealthReportService,
-    private readonly healthService: HealthService
+    private readonly healthService: HealthService // HealthService 의존성 주입
   ) {}
-
 
   @Post('checkup/:userId')
   async createCheckup(@Param('userId') userId: string, @Body() createHealthCheckupDto: CreateHealthCheckupDto) {
@@ -36,13 +33,13 @@ export class HealthController {
   // BMI 계산 엔드포인트
   @Get('bmi/:userId')
   async calculateBMI(@Param('userId') userId: string) {
-    return this.healthService.calculateBMI(userId);
+    return this.healthService.calculateBMI(userId); // HealthService의 메서드 호출
   }
 
   // 건강 체크업 기록 엔드포인트
   @Post('checkup/:userId')
   async recordCheckup(@Param('userId') userId: string, @Body() checkupData: any) {
-    return this.healthService.recordCheckup(userId, checkupData);
+    return this.healthService.recordCheckup(userId, checkupData); // HealthService의 메서드 호출
   }
 
 }

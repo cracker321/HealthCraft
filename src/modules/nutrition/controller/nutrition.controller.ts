@@ -1,5 +1,3 @@
-// src/modules/nutrition/nutrition.controller.ts
-
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { NutritionService } from '../service/nutrition.service';
 import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
@@ -32,5 +30,4 @@ export class NutritionController {
   async createMealPlan(@Param('userId') userId: string, @Body() mealPlanData: any) {
     return this.nutritionService.createMealPlan(userId, mealPlanData);
   }
-
 }
