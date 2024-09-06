@@ -1,27 +1,4 @@
 
-// HealthReport 인터페이스 정의
-interface IHealthReport {
-  id: string;
-  user: User;
-  latestCheckup: HealthCheckup;
-  reportDate: Date;
-  overallHealthStatus: string;
-  healthMetrics: {
-    bmi: number;
-    bloodPressureStatus: string;
-    cholesterolStatus: string;
-    bloodSugarStatus: string;
-  };
-  improvements: string[];
-  risks: string[];
-  recommendations: {
-    diet: string[];
-    exercise: string[];
-    lifestyle: string[];
-  };
-  additionalNotes?: string;
-  createdAt: Date;
-}
 
 // HealthReport 엔티티:
 // 사용자의 종합 건강 상태 보고서 저장

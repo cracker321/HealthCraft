@@ -7,7 +7,6 @@ import { HealthProfile } from '../../health/entity/health-profile.entity';
 import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
 import { UpdateUserDto } from '../dto/update-user.dto';
 
-
 @Injectable()
 export class UserService {
   constructor(
@@ -29,7 +28,7 @@ export class UserService {
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ 
       where: { id },
-      relations: ['healthProfiles', 'dietaryRestrictions', 'allergies']
+      relations: ['healthProfiles', 'dietaryRestrictions' ]
     });
     if (!user) {
       throw new NotFoundException('User not found');
@@ -58,8 +57,8 @@ export class UserService {
     return this.dietaryRestrictionRepository.save(restriction);
   }
 
-   // 사용자의 식이 제한을 조회하는 메서드
-   async getUserDietaryRestrictions(userId: string): Promise<string[]> {
+  // 사용자의 식이 제한을 조회하는 메서드
+  async getUserDietaryRestrictions(userId: string): Promise<string[]> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: ['dietaryRestrictions']
@@ -67,5 +66,3 @@ export class UserService {
     return user.dietaryRestrictions.map(restriction => restriction.name);
   }
 }
-
-  

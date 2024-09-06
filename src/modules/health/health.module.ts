@@ -1,6 +1,4 @@
-// src/modules/health/health.module.ts
-
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HealthProfileService } from './service/health-profile.service';
 import { HealthCheckupService } from './service/health-checkup.service';
@@ -13,8 +11,10 @@ import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    // HealthProfile, HealthCheckup, HealthReport 엔티티를 TypeORM에 등록
     TypeOrmModule.forFeature([HealthProfile, HealthCheckup, HealthReport]),
-    UserModule,
+    // UserModule을 import, 순환 종속성 방지를 위해 forwardRef 사용
+    forwardRef(() => UserModule),
   ],
   providers: [HealthProfileService, HealthCheckupService, HealthReportService],
   controllers: [HealthController],

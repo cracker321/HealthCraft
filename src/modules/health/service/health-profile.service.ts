@@ -7,12 +7,14 @@ import { HealthProfile } from '../entity/health-profile.entity';
 import { User } from '../../user/entity/user.entity';
 import { CreateHealthProfileDto } from '../dto/create-health-profile.dto';
 import { UpdateHealthProfileDto } from '../dto/update-health-profile.dto';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class HealthProfileService {
   constructor(
     @InjectRepository(HealthProfile)
     private healthProfileRepository: Repository<HealthProfile>,
+    private userService: UserService,
     @InjectRepository(User)
     private userRepository: Repository<User>
   ) {}
@@ -28,6 +30,8 @@ export class HealthProfileService {
       user
     });
 
+  
+
     // BMI 계산
     healthProfile.bmi = this.calculateBMI(createHealthProfileDto.height, createHealthProfileDto.weight);
 
@@ -36,6 +40,47 @@ export class HealthProfileService {
 
     return this.healthProfileRepository.save(healthProfile);
   }
+
+
+     // 건강 프로필 생성 메서드
+  async createProfile(userId: string, profileData: Partial<HealthProfile>): Promise<HealthProfile> {
+    const user = await this.userService.findOne(userId);
+    const profile = this.healthProfileRepository.create({ ...profileData, user });
+    profile.calculateBMI();
+    profile.calculateBMR(user.age, user.gender);
+    return this.healthProfileRepository.save(profile);
+  }
+
+  // 사용자의 최신 건강 프로필 조회 메서드
+  async getLatestProfile(userId: string): Promise<HealthProfile> {
+    const profile = await this.healthProfileRepository.findOne({
+      where: { user: { id: userId } },
+      order: { createdAt: 'DESC' }
+    });
+    if (!profile) {
+      throw new NotFoundException('Health profile not found');
+    }
+    return profile;
+  }
+
+  // 건강 프로필 업데이트 메서드
+  async updateProfile(profileId: string, updateData: Partial<HealthProfile>): Promise<HealthProfile> {
+    const profile = await this.healthProfileRepository.findOne({ where: { id: profileId } });
+    if (!profile) {
+      throw new NotFoundException('Health profile not found');
+    }
+    Object.assign(profile, updateData);
+    profile.calculateBMI();
+    profile.calculateBMR(profile.user.age, profile.user.gender);
+    return this.healthProfileRepository.save(profile);
+  }
+
+  // 일일 칼로리 요구량 계산 메서드
+  async calculateDailyCalorieNeeds(userId: string): Promise<number> {
+    const profile = await this.getLatestProfile(userId);
+    return profile.calculateDailyCalorieNeeds();
+  }
+
 
   async update(id: string, updateHealthProfileDto: UpdateHealthProfileDto): Promise<HealthProfile> {
     const healthProfile = await this.healthProfileRepository.findOne({ where: { id } });
