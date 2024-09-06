@@ -14,21 +14,21 @@ import { HealthService } from './service/health.service'; // HealthService 추�
   imports: [
     // HealthProfile, HealthCheckup, HealthReport 엔티티를 TypeORM에 등록
     TypeOrmModule.forFeature([HealthProfile, HealthCheckup, HealthReport]),
-    // UserModule을 import, 순환 종속성 방지를 위해 forwardRef 사용
+    // 순환 종속성 방지를 위해 forwardRef 사용
     forwardRef(() => UserModule),
   ],
   providers: [
     HealthProfileService, 
     HealthCheckupService, 
     HealthReportService,
-    HealthService // HealthService를 provider로 추가
+    HealthService
   ],
   controllers: [HealthController],
   exports: [
     HealthProfileService, 
     HealthCheckupService, 
     HealthReportService,
-    HealthService // HealthService를 export
+    HealthService 
   ],
 })
 export class HealthModule {}
