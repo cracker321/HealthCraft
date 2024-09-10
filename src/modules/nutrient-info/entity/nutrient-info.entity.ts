@@ -34,10 +34,6 @@ export class NutrientInfo {
   @IsOptional()
   description?: string;
 
-  @Column('text', { nullable: true })
-  @IsOptional()
-  benefits?: string;
-
   @Column('float', { nullable: true })
   @IsOptional()
   @IsNumber({}, { message: '상한 섭취량은 숫자여야 합니다.' })
@@ -50,26 +46,6 @@ export class NutrientInfo {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // 특정 섭취량에 대한 권장 섭취량 대비 비율 계산 메서드
-  calculateIntakePercentage(intakeAmount: number): number {
-    return (intakeAmount / this.dailyRecommendedIntake) * 100;
-  }
 
 
-  // 영양소 정보 요약 생성 메서드
-  generateSummary(): string {
-    let summary = `영양소: ${this.name}\n`;
-    summary += `단위: ${this.unit}\n`;
-    summary += `일일 권장 섭취량: ${this.dailyRecommendedIntake}\n`;
-    if (this.description) {
-      summary += `설명: ${this.description}\n`;
-    }
-    if (this.benefits) {
-      summary += `이점: ${this.benefits}\n`;
-    }
-    if (this.upperLimit) {
-      summary += `상한 섭취량: ${this.upperLimit}\n`;
-    }
-    return summary;
-  }
 }

@@ -36,63 +36,10 @@ export class FoodDatabase {
   @Min(0, { message: '지방 함량은 0 이상이어야 합니다.' })
   fatPer100g: number;
 
-  // 추가 영양 정보
-  @Column('simple-json')
-  @IsOptional()
-  vitamins?: { [vitamin: string]: number };
-
-  @Column('simple-json')
-  @IsOptional()
-  minerals?: { [mineral: string]: number };
-
-  // 식이 제한 정보
-  @Column('simple-array')
-  @IsOptional()
-  @IsArray({ message: '식이 제한은 배열이어야 합니다.' })
-  dietaryRestrictions?: string[];
-
-  // 기타 정보
-  @Column('int')
-  @IsNumber({}, { message: '일반적인 서빙 크기는 숫자여야 합니다.' })
-  @Min(0, { message: '서빙 크기는 0 이상이어야 합니다.' })
-  typicalServingSize: number;  // 단위: 그램
-
-  @Column({ nullable: true })
-  @IsOptional()
-  seasonality?: string;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  origin?: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // 특정 양에 대한 영양 정보 계산 메서드
-  calculateNutritionForAmount(amount: number): { [key: string]: number } {
-    const factor = amount / 100;
-    return {
-      calories: this.caloriesPer100g * factor,
-      protein: this.proteinPer100g * factor,
-      carbs: this.carbsPer100g * factor,
-      fat: this.fatPer100g * factor,
-      ...this.vitamins && Object.fromEntries(Object.entries(this.vitamins).map(([k, v]) => [k, v * factor])),
-      ...this.minerals && Object.fromEntries(Object.entries(this.minerals).map(([k, v]) => [k, v * factor]))
-    };
-  }
-
-  // 음식 정보 요약 생성 메서드
-  generateSummary(): string {
-    let summary = `음식 정보: ${this.name}\n`;
-    summary += `분류: ${this.category}\n`;
-    summary += `칼로리 (100g당): ${this.caloriesPer100g} kcal\n`;
-    summary += `단백질 (100g당): ${this.proteinPer100g}g\n`;
-    summary += `탄수화물 (100g당): ${this.carbsPer100g}g\n`;
-    summary += `지방 (100g당): ${this.fatPer100g}g\n`;
-    
-    return summary;
-  }
 }

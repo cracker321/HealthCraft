@@ -41,10 +41,6 @@ export class HealthService {
       where: { user: { id: userId } },
       order: { checkupDate: 'DESC' }
     });
-    const latestProfile = await this.healthProfileRepository.findOne({
-      where: { user: { id: userId } },
-      order: { createdAt: 'DESC' }
-    });
     // 건강 리포트 생성 및 저장
     const report = this.healthReportRepository.create({
       user,
@@ -61,15 +57,6 @@ export class HealthService {
     });
   }
 
-   // BMI 계산 메서드
-   async calculateBMI(userId: string): Promise<number> {
-    const profile = await this.getLatestHealthProfile(userId);
-    if (!profile || !profile.height || !profile.weight) {
-      throw new Error('사용자의 키와 몸무게 정보가 필요합니다.');
-    }
-    const heightInMeters = profile.height / 100;
-    return profile.weight / (heightInMeters * heightInMeters);
-  }
 
   // 건강 검진 기록 메서드 수정
   async recordCheckup(userId: string, checkupData: Partial<HealthCheckup>): Promise<HealthCheckup> {
@@ -82,19 +69,6 @@ export class HealthService {
     return this.healthCheckupRepository.save(checkup);
   }
 
-  // 건강 상태 평가 메서드
-  async evaluateHealthStatus(userId: string): Promise<{ bloodPressure: string; cholesterol: string; bloodSugar: string }> {
-    const latestCheckup = await this.healthCheckupRepository.findOne({
-      where: { user: { id: userId } },
-      order: { checkupDate: 'DESC' }
-    });
-
-    if (!latestCheckup) {
-      throw new Error('건강 검진 기록이 없습니다.');
-    }
-
-    return latestCheckup.evaluateHealthStatus();
-  }
 
 
 }

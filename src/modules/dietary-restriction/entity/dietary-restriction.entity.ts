@@ -40,35 +40,9 @@ export class DietaryRestriction {
   @Column({ nullable: true })
   description: string; // 제한 사항에 대한 추가 설명
 
-
   @Column('text')
   @IsNotEmpty({ message: '제한 이유는 필수입니다.' })
   reason: string;
-
-  @Column()
-  @IsNotEmpty({ message: '시작일은 필수입니다.' })
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  startDate: Date;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  endDate?: Date;
-
-  @Column('simple-array', { nullable: true })
-  @IsOptional()
-  excludedFoods?: string[];
-
-  @Column('simple-array', { nullable: true })
-  @IsOptional()
-  alternativeFoods?: string[];
-
-  @Column('text', { nullable: true })
-  @IsOptional()
-  additionalNotes?: string;
-
-  @Column({ default: true })
-  isActive: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

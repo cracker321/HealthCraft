@@ -28,7 +28,6 @@ export class HealthCheckup {
   @ManyToOne(() => User, user => user.healthCheckups)
   user: User;
 
-
   @Column('float')
   height: number; // 키 (cm)
 
@@ -49,16 +48,6 @@ export class HealthCheckup {
   totalCholesterol: number; // 단위: mg/dL
 
   @Column('float')
-  @IsNumber({}, { message: 'HDL 콜레스테롤은 숫자여야 합니다.' })
-  @Min(0, { message: 'HDL 콜레스테롤은 0 이상이어야 합니다.' })
-  hdlCholesterol: number; // 단위: mg/dL
-
-  @Column('float')
-  @IsNumber({}, { message: 'LDL 콜레스테롤은 숫자여야 합니다.' })
-  @Min(0, { message: 'LDL 콜레스테롤은 0 이상이어야 합니다.' })
-  ldlCholesterol: number; // 단위: mg/dL
-
-  @Column('float')
   cholesterol: number; // 총 콜레스테롤
 
   @Column('float')
@@ -66,42 +55,9 @@ export class HealthCheckup {
   @Min(0, { message: '공복혈당은 0 이상이어야 합니다.' })
   fastingBloodSugar: number; // 단위: mg/dL
 
-  @Column('text', { nullable: true })
-  doctorNotes?: string;
-
   @CreateDateColumn()
   createdAt: Date;
 
 
-  
-  // 건강 상태 평가 메서드
-  evaluateHealthStatus(): { bloodPressure: string; cholesterol: string; bloodSugar: string } {
-    const status = {
-      bloodPressure: 'Normal',
-      cholesterol: 'Desirable',
-      bloodSugar: 'Normal'
-    };
-
-
-    // 콜레스테롤 평가
-    if (this.totalCholesterol < 200) {
-      status.cholesterol = 'Desirable';
-    } else if (this.totalCholesterol < 240) {
-      status.cholesterol = 'Borderline High';
-    } else {
-      status.cholesterol = 'High';
-    }
-
-    // 혈당 평가
-    if (this.fastingBloodSugar < 100) {
-      status.bloodSugar = 'Normal';
-    } else if (this.fastingBloodSugar < 126) {
-      status.bloodSugar = 'Prediabetes';
-    } else {
-      status.bloodSugar = 'Diabetes';
-    }
-
-    return status;
-  }
   
 }

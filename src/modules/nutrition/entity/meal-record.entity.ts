@@ -33,11 +33,6 @@ export class MealRecord {
   @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
   eatenAt: Date;
 
-  @Column()
-  @IsNotEmpty({ message: '식사 유형은 필수입니다.' })
-  @IsEnum(['breakfast', 'lunch', 'dinner', 'snack'], { message: '유효한 식사 유형이 아닙니다.' })
-  mealType: string;
-
   @ManyToMany(() => FoodDatabase)
   @JoinTable()
   foodItems: FoodDatabase[];
@@ -83,37 +78,5 @@ export class MealRecord {
   @CreateDateColumn()
   createdAt: Date;
 
-  // 식사 영양 정보 계산 메서드
-  calculateNutrition() {
-    this.totalCalories = 0;
-    this.totalProtein = 0;
-    this.totalCarbs = 0;
-    this.totalFat = 0;
-
-    // 개별 음식 항목에 대한 계산
-    this.foodItems.forEach(food => {
-      const portion = this.portions[food.id] || 1;
-      this.totalCalories += food.caloriesPer100g * portion / 100;
-      this.totalProtein += food.proteinPer100g * portion / 100;
-      this.totalCarbs += food.carbsPer100g * portion / 100;
-      this.totalFat += food.fatPer100g * portion / 100;
-    });
-
-    // 레시피에 대한 계산
-    this.recipes.forEach(recipe => {
-      const servings = this.recipeServings[recipe.id] || 1;
-      this.totalCalories += recipe.calories * servings;
-      this.totalProtein += recipe.protein * servings;
-      this.totalCarbs += recipe.carbs * servings;
-      this.totalFat += recipe.fat * servings;
-    });
-  }
-
-  // 식사 기록에 음식 추가 메서드
-  addFoodItem(foodItem: FoodDatabase, portion: number) {
-    this.foodItems.push(foodItem);
-    this.portions[foodItem.id] = portion;
-    this.calculateNutrition();
-  }
 
 }

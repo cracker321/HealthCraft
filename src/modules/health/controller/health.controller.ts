@@ -30,11 +30,6 @@ export class HealthController {
     return this.healthReportService.generateReport(userId);
   }
 
-  // BMI 계산 엔드포인트
-  @Get('bmi/:userId')
-  async calculateBMI(@Param('userId') userId: string) {
-    return this.healthService.calculateBMI(userId); // HealthService의 메서드 호출
-  }
 
   // 건강 검진 기록 엔드포인트
   @Post('checkup/:userId')

@@ -20,16 +20,6 @@ export class NutritionGoal {
   @ManyToOne(() => HealthProfile, healthProfile => healthProfile.nutritionGoals)
   healthProfile: HealthProfile;
 
-  @Column()
-  @IsNotEmpty({ message: '목표 설정 날짜는 필수입니다.' })
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  startDate: Date;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  endDate?: Date;
-
   @Column('int')
   @IsNumber({}, { message: '일일 목표 칼로리는 숫자여야 합니다.' })
   @Min(1000, { message: '일일 목표 칼로리는 최소 1000kcal 이상이어야 합니다.' })
@@ -50,14 +40,6 @@ export class NutritionGoal {
   @IsNumber({}, { message: '지방 목표는 숫자여야 합니다.' })
   @Min(0, { message: '지방 목표는 0g 이상이어야 합니다.' })
   fatTarget: number;
-
-  @Column('simple-json', { nullable: true })
-  @IsOptional()
-  additionalNutrients?: { [nutrient: string]: number };
-
-  @Column('text', { nullable: true })
-  @IsOptional()
-  notes?: string;
 
   @CreateDateColumn()
   createdAt: Date;

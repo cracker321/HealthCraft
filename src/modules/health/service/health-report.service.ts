@@ -33,9 +33,6 @@ export class HealthReportService {
       latestCheckup,
       overallHealthStatus: this.calculateOverallHealth(latestCheckup),
       healthMetrics: this.calculateHealthMetrics(latestCheckup),
-      improvements: this.generateImprovements(latestCheckup),
-      risks: this.generateRisks(latestCheckup),
-      recommendations: this.generateRecommendations(latestCheckup)
     });
 
     return this.healthReportRepository.save(report);
@@ -56,22 +53,4 @@ export class HealthReportService {
     };
   }
 
-  private generateImprovements(checkup: HealthCheckup): string[] {
-    // 개선사항 생성 로직
-    return ['Increase daily water intake', 'Exercise more regularly'];
-  }
-
-  private generateRisks(checkup: HealthCheckup): string[] {
-    // 건강 위험 생성 로직
-    return ['Slightly elevated blood pressure'];
-  }
-
-  private generateRecommendations(checkup: HealthCheckup): any {
-    // 권장사항 생성 로직
-    return {
-      diet: ['Reduce salt intake', 'Increase vegetable consumption'],
-      exercise: ['30 minutes of moderate exercise daily'],
-      lifestyle: ['Practice stress-reduction techniques']
-    };
-  }
 }

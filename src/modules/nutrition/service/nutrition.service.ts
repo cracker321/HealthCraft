@@ -92,7 +92,6 @@ export class NutritionService {
     const mealPlan = new MealRecord();
     mealPlan.user = user;
     mealPlan.eatenAt = mealPlanData.date;  // 식사 날짜 설정
-    mealPlan.mealType = mealPlanData.mealType;  // 식사 유형 설정
     
     const foodItems = await this.foodDatabaseRepository.findByIds(mealPlanData.foodItemIds);  // 음식 항목 조회
     mealPlan.foodItems = foodItems;

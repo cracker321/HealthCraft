@@ -69,11 +69,6 @@ export class HealthProfileService {
     return this.healthProfileRepository.save(profile);
   }
 
-  // 일일 칼로리 요구량 계산 메서드
-  async calculateDailyCalorieNeeds(userId: string): Promise<number> {
-    const profile = await this.getLatestProfile(userId);
-    return profile.calculateDailyCalorieNeeds();
-  }
 
   async findLatestByUserId(userId: string): Promise<HealthProfile> {
     return this.healthProfileRepository.findOne({

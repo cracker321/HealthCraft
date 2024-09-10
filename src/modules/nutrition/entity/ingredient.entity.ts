@@ -197,28 +197,4 @@ export class Ingredient {
     }
   }
 
-  // 영양 정보 요약 생성 메서드
-  generateNutritionSummary(): string {
-    let summary = `영양 정보 (100g 기준):\n`;
-    summary += `칼로리: ${this.calories} kcal\n`;
-    summary += `단백질: ${this.protein}g\n`;
-    summary += `탄수화물: ${this.carbs}g\n`;
-    summary += `지방: ${this.fat}g\n`;
-    if (this.fiber !== undefined) {
-      summary += `식이섬유: ${this.fiber}g\n`;
-    }
-    if (this.sugar !== undefined) {
-      summary += `당류: ${this.sugar}g\n`;
-    }
-    return summary;
-  }
-
-  // 알레르기 및 식이 제한 정보 요약 생성 메서드
-  generateRestrictionsSummary(): string {
-    let summary = '';
-    if (this.dietaryRestrictions && this.dietaryRestrictions.length > 0) {
-      summary += `식이 제한: ${this.dietaryRestrictions.join(', ')}\n`;
-    }
-    return summary;
-  }
 }
