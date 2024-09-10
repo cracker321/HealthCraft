@@ -53,7 +53,7 @@ export class HealthProfileService {
       order: { createdAt: 'DESC' }
     });
     if (!profile) {
-      throw new NotFoundException('Health profile not found');
+      throw new NotFoundException('사용자의 건강 프로필이 존재하지 않습니다.');
     }
     return profile;
   }
@@ -62,7 +62,7 @@ export class HealthProfileService {
   async updateProfile(profileId: string, updateData: Partial<HealthProfile>): Promise<HealthProfile> {
     const profile = await this.healthProfileRepository.findOne({ where: { id: profileId } });
     if (!profile) {
-      throw new NotFoundException('Health profile not found');
+      throw new NotFoundException('사용자의 건강 프로필이 존재하지 않습니다.');
     }
     Object.assign(profile, updateData);
     profile.calculateBMI();

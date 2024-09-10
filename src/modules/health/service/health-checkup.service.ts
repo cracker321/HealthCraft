@@ -58,28 +58,28 @@ export class HealthCheckupService {
   // 건강 상태 평가 메소드
   private evaluateHealthStatus(checkup: HealthCheckup): string {
     const bmi = this.calculateBMI(checkup.height, checkup.weight);
-    if (bmi < 18.5) return 'Underweight';
-    if (bmi < 25) return 'Normal weight';
-    if (bmi < 30) return 'Overweight';
-    return 'Obese';
+    if (bmi < 18.5) return '저체중';
+    if (bmi < 25) return '평균체중';
+    if (bmi < 30) return '과체중';
+    return '비만';
   }
 
-  // 건강 개선 권장사항 생성 메소드
+   // 건강 개선 권장사항 생성 메소드
   private generateRecommendations(checkup: HealthCheckup): string[] {
     const recommendations: string[] = [];
     const bmi = this.calculateBMI(checkup.height, checkup.weight);
 
     if (bmi < 18.5) {
-      recommendations.push('Consider increasing your calorie intake');
-      recommendations.push('Consult with a nutritionist for a balanced diet plan');
+      recommendations.push('칼로리 섭취를 늘리는 것을 고려하세요');
+      recommendations.push('균형 잡힌 식단을 위해 영양사와 상담하세요');
     } else if (bmi >= 25) {
-      recommendations.push('Consider reducing your calorie intake');
-      recommendations.push('Increase physical activity');
+      recommendations.push('칼로리 섭취를 줄이는 것을 고려하세요');
+      recommendations.push('신체 활동을 증가시키세요');
     }
 
     if (checkup.cholesterol > 200) {
-      recommendations.push('Limit foods high in saturated fats');
-      recommendations.push('Increase consumption of fruits and vegetables');
+      recommendations.push('포화 지방이 많은 음식을 제한하세요');
+      recommendations.push('과일과 채소 섭취를 늘리세요');
     }
 
     return recommendations;
