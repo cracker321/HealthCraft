@@ -7,7 +7,7 @@ import { HealthCheckup } from '../entity/health-checkup.entity';
 import { CreateHealthCheckupDto } from '../dto/create-health-checkup.dto';
 import { UserService } from '../../user/service/user.service';
 
-// 건강 체크업 관련 비즈니스 로직을 처리하는 서비스
+// 건강 검진 관련 비즈니스 로직을 처리하는 서비스
 @Injectable()
 export class HealthCheckupService {
   constructor(
@@ -16,7 +16,7 @@ export class HealthCheckupService {
     private userService: UserService
   ) {}
 
-  // 건강 체크업 기록 생성 메소드
+  // 건강 검진 기록 생성 메소드
   async create(userId: string, createHealthCheckupDto: CreateHealthCheckupDto): Promise<HealthCheckup> {
     const user = await this.userService.findOne(userId);
     const healthCheckup = this.healthCheckupRepository.create({
@@ -26,7 +26,7 @@ export class HealthCheckupService {
     return this.healthCheckupRepository.save(healthCheckup);
   }
 
-  // 사용자의 최근 건강 체크업 조회 메소드
+  // 사용자의 최근 건강 검진 조회 메소드
   async findLatestByUserId(userId: string): Promise<HealthCheckup> {
     const checkup = await this.healthCheckupRepository.findOne({
       where: { user: { id: userId } },
@@ -38,7 +38,7 @@ export class HealthCheckupService {
     return checkup;
   }
 
-  // 건강 체크업 리포트 생성 메소드
+  // 건강 검진 리포트 생성 메소드
   async generateReport(userId: string): Promise<any> {
     const latestCheckup = await this.findLatestByUserId(userId);
     return {
@@ -75,11 +75,6 @@ export class HealthCheckupService {
     } else if (bmi >= 25) {
       recommendations.push('Consider reducing your calorie intake');
       recommendations.push('Increase physical activity');
-    }
-
-    if (checkup.systolicBP > 120 || checkup.diastolicBP > 80) {
-      recommendations.push('Monitor your blood pressure regularly');
-      recommendations.push('Reduce salt intake');
     }
 
     if (checkup.cholesterol > 200) {

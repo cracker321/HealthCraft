@@ -76,35 +76,9 @@ export class DietaryRestriction {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // 현재 활성 상태 확인 메서드 (이름 변경됨)
-  checkIfActive(): boolean {
-    return !this.endDate || this.endDate > new Date();
-  }
 
-  // 제한 기간 계산 메서드
-  getDurationInDays(): number {
-    const end = this.endDate || new Date();
-    const diffTime = Math.abs(end.getTime() - this.startDate.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  }
 
-  // 식단 제한 요약 생성 메서드
-  generateSummary(): string {
-    let summary = `식단 제한: ${this.restrictionType}\n`;
-    summary += `이유: ${this.reason}\n`;
-    summary += `시작일: ${this.startDate.toLocaleDateString()}\n`;
-    if (this.endDate) {
-      summary += `종료일: ${this.endDate.toLocaleDateString()}\n`;
-    }
-    if (this.excludedFoods && this.excludedFoods.length > 0) {
-      summary += `제외 식품: ${this.excludedFoods.join(', ')}\n`;
-    }
-    if (this.alternativeFoods && this.alternativeFoods.length > 0) {
-      summary += `대체 식품: ${this.alternativeFoods.join(', ')}\n`;
-    }
-    summary += `현재 상태: ${this.checkIfActive() ? '활성' : '비활성'}\n`;
-    return summary;
-  }
+ 
 }
 
 

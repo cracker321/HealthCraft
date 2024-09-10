@@ -13,11 +13,6 @@ export class NutritionController {
     return this.nutritionService.analyzeNutrition(userId);
   }
 
-  // 식단 추천 엔드포인트
-  @Get('meal-recommendation/:userId')
-  async getMealRecommendation(@Param('userId') userId: string) {
-    return this.nutritionService.recommendMeal(userId);
-  }
 
   // 칼로리 계산 엔드포인트
   @Post('calculate-calories')

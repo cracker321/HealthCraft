@@ -32,7 +32,6 @@ export class SupplementRecommendationService {
     const deficientNutrients: string[] = [];
     if (nutritionAnalysis.vitaminC < 60) deficientNutrients.push('Vitamin C');
     if (nutritionAnalysis.calcium < 1000) deficientNutrients.push('Calcium');
-    // 기타 영양소 체크...
     return deficientNutrients;
   }
 
@@ -59,23 +58,4 @@ export class SupplementRecommendationService {
     return true; // 임시 반환값
   }
 
-  // 영양제 복용 일정 생성 메서드
-  async createSupplementSchedule(userId: string, supplementId: string): Promise<any> {
-    const supplement = await this.supplementRecommendationRepository.findOne({ where: { id: supplementId } });
-    if (!supplement) {
-      throw new Error('영양제를 찾을 수 없습니다.');
-    }
-    // 영양제 복용 일정 생성 로직
-    const schedule = {
-      userId,
-      supplementId: supplement.id,
-      supplementName: supplement.supplementName,
-      dosage: supplement.recommendedDosage,
-      frequency: 'daily', // 예시 값
-      startDate: new Date(),
-      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30일 후
-    };
-    // 실제로는 이 스케줄을 데이터베이스에 저장해야 함
-    return schedule;
-  }
 }

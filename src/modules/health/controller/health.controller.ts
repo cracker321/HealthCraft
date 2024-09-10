@@ -36,7 +36,7 @@ export class HealthController {
     return this.healthService.calculateBMI(userId); // HealthService의 메서드 호출
   }
 
-  // 건강 체크업 기록 엔드포인트
+  // 건강 검진 기록 엔드포인트
   @Post('checkup/:userId')
   async recordCheckup(@Param('userId') userId: string, @Body() checkupData: any) {
     return this.healthService.recordCheckup(userId, checkupData); // HealthService의 메서드 호출

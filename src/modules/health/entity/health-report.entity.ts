@@ -51,9 +51,6 @@ export class HealthReport {
     lifestyle: string[];
   };
 
-  @Column('text', { nullable: true })
-  additionalNotes?: string;
-
   @CreateDateColumn()
   createdAt: Date;
 }

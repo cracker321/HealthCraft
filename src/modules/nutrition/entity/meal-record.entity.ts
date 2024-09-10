@@ -107,12 +107,6 @@ export class MealRecord {
       this.totalCarbs += recipe.carbs * servings;
       this.totalFat += recipe.fat * servings;
     });
-
-    // 소수점 둘째 자리까지 반올림
-    this.totalCalories = Number(this.totalCalories.toFixed(2));
-    this.totalProtein = Number(this.totalProtein.toFixed(2));
-    this.totalCarbs = Number(this.totalCarbs.toFixed(2));
-    this.totalFat = Number(this.totalFat.toFixed(2));
   }
 
   // 식사 기록에 음식 추가 메서드
@@ -122,56 +116,4 @@ export class MealRecord {
     this.calculateNutrition();
   }
 
-  // 식사 기록에서 음식 제거 메서드
-  removeFoodItem(foodItemId: string) {
-    this.foodItems = this.foodItems.filter(item => item.id !== foodItemId);
-    delete this.portions[foodItemId];
-    this.calculateNutrition();
-  }
-
-  // 식사 기록에 레시피 추가 메서드
-  addRecipe(recipe: Recipe, servings: number) {
-    this.recipes.push(recipe);
-    this.recipeServings[recipe.id] = servings;
-    this.calculateNutrition();
-  }
-
-  // 식사 기록에서 레시피 제거 메서드
-  removeRecipe(recipeId: string) {
-    this.recipes = this.recipes.filter(recipe => recipe.id !== recipeId);
-    delete this.recipeServings[recipeId];
-    this.calculateNutrition();
-  }
-
-  // 식사 요약 생성 메서드
-  generateSummary(): string {
-    let summary = `식사 기록 (${this.eatenAt.toLocaleString()})\n`;
-    summary += `식사 유형: ${this.mealType}\n\n`;
-    
-    if (this.foodItems.length > 0) {
-      summary += "음식 항목:\n";
-      this.foodItems.forEach(food => {
-        summary += `- ${food.name}: ${this.portions[food.id]}g\n`;
-      });
-    }
-    
-    if (this.recipes.length > 0) {
-      summary += "\n레시피:\n";
-      this.recipes.forEach(recipe => {
-        summary += `- ${recipe.name}: ${this.recipeServings[recipe.id]} 인분\n`;
-      });
-    }
-    
-    summary += `\n총 영양 정보:\n`;
-    summary += `칼로리: ${this.totalCalories} kcal\n`;
-    summary += `단백질: ${this.totalProtein}g\n`;
-    summary += `탄수화물: ${this.totalCarbs}g\n`;
-    summary += `지방: ${this.totalFat}g\n`;
-    
-    if (this.notes) {
-      summary += `\n비고: ${this.notes}\n`;
-    }
-    
-    return summary;
-  }
 }

@@ -216,9 +216,6 @@ export class Ingredient {
   // 알레르기 및 식이 제한 정보 요약 생성 메서드
   generateRestrictionsSummary(): string {
     let summary = '';
-    if (this.allergens && this.allergens.length > 0) {
-      summary += `알레르기 유발 성분: ${this.allergens.join(', ')}\n`;
-    }
     if (this.dietaryRestrictions && this.dietaryRestrictions.length > 0) {
       summary += `식이 제한: ${this.dietaryRestrictions.join(', ')}\n`;
     }

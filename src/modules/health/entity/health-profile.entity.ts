@@ -31,6 +31,7 @@ export class HealthProfile {
   @Max(500, { message: '체중은 500kg을 초과할 수 없습니다.' })
   weight: number;
 
+
   // BMI 정보
   @Column('float')
   bmi: number;
@@ -67,11 +68,11 @@ export class HealthProfile {
   // 영양 계획과의 일대다 관계
   @OneToMany(() => NutritionPlan, nutritionPlan => nutritionPlan.healthProfile)
   nutritionPlans: NutritionPlan[];
-    
-  // 영양 목표와의 일대다 관계
+
   @OneToMany(() => NutritionGoal, nutritionGoal => nutritionGoal.healthProfile)
   nutritionGoals: NutritionGoal[];
 
+    
   // 생성 일자
   @CreateDateColumn()
   createdAt: Date;
@@ -83,15 +84,6 @@ export class HealthProfile {
   // BMI 계산 메서드
   calculateBMI() {
     this.bmi = this.weight / ((this.height / 100) ** 2);
-  }
-
-  // BMR 계산 메서드 (해리스-베네딕트 공식 사용)
-  calculateBMR(age: number, gender: string) {
-    if (gender === 'male') {
-      this.bmr = 88.362 + (13.397 * this.weight) + (4.799 * this.height) - (5.677 * age);
-    } else {
-      this.bmr = 447.593 + (9.247 * this.weight) + (3.098 * this.height) - (4.330 * age);
-    }
   }
 
   // 일일 칼로리 요구량 계산 메서드

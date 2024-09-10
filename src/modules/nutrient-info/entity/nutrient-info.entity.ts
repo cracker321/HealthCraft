@@ -38,26 +38,11 @@ export class NutrientInfo {
   @IsOptional()
   benefits?: string;
 
-  @Column('text', { nullable: true })
-  @IsOptional()
-  deficiencySymptoms?: string;
-
-  @Column('text', { nullable: true })
-  @IsOptional()
-  excessSymptoms?: string;
-
-  @Column('simple-array', { nullable: true })
-  foodSources?: string[];
-
   @Column('float', { nullable: true })
   @IsOptional()
   @IsNumber({}, { message: '상한 섭취량은 숫자여야 합니다.' })
   @Min(0, { message: '상한 섭취량은 0 이상이어야 합니다.' })
   upperLimit?: number;
-
-  @Column('simple-json', { nullable: true })
-  @IsOptional()
-  ageSpecificRecommendations?: { [ageGroup: string]: number };
 
   @CreateDateColumn()
   createdAt: Date;
@@ -70,10 +55,6 @@ export class NutrientInfo {
     return (intakeAmount / this.dailyRecommendedIntake) * 100;
   }
 
-  // 특정 나이 그룹에 대한 권장 섭취량 반환 메서드
-  getRecommendationForAge(ageGroup: string): number | undefined {
-    return this.ageSpecificRecommendations?.[ageGroup];
-  }
 
   // 영양소 정보 요약 생성 메서드
   generateSummary(): string {
@@ -85,15 +66,6 @@ export class NutrientInfo {
     }
     if (this.benefits) {
       summary += `이점: ${this.benefits}\n`;
-    }
-    if (this.deficiencySymptoms) {
-      summary += `결핍 증상: ${this.deficiencySymptoms}\n`;
-    }
-    if (this.excessSymptoms) {
-      summary += `과다 섭취 증상: ${this.excessSymptoms}\n`;
-    }
-    if (this.foodSources && this.foodSources.length > 0) {
-      summary += `식품 원천: ${this.foodSources.join(', ')}\n`;
     }
     if (this.upperLimit) {
       summary += `상한 섭취량: ${this.upperLimit}\n`;
