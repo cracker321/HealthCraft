@@ -10,12 +10,12 @@ async function bootstrap() {
     .setDescription('이 프로젝트의 API 명세서입니다.')
     .setVersion('1.0')
     .addTag('API')
-    .addBearerAuth()
+    .addBearerAuth() //
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(3000); 
 }
 bootstrap();
