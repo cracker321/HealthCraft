@@ -51,11 +51,6 @@
 - [ ] 사용자의 최근 건강 검진 결과를 바탕으로 건강 보고서 생성
 - [ ] 전반적 건강 상태 및 주요 건강 지표 평가 포함
 
-### 식이 제한 관리 (Dietary Restriction Management)
-
-- [ ] 사용자별 식이 제한 사항 등록 및 관리 (예: vegetarian, vegan, gluten-free 등)
-- [ ] 식이 제한 이유 및 기간 설정 기능
-
 ### 영양 목표 설정 (Nutrition Goal Setting)
 
 - [ ] 사용자의 건강 프로필을 바탕으로 일일 영양 목표 설정
@@ -101,5 +96,6 @@
 
 ## ERD 데이터 모델링 (ERD Data Modeling)
 
-![image](https://github.com/user-attachments/assets/5ea0bd15-b97f-4699-b2c8-0ddc0b815a0c)
+![image](https://github.com/user-attachments/assets/774d78d8-3156-4d5e-b46e-a5cde600f9b5)
+
 
