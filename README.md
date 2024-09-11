@@ -7,7 +7,6 @@
    - [개인 건강 프로필 관리 (Personal Health Profile Management)](#개인-건강-프로필-관리-personal-health-profile-management)
    - [건강 보고서 생성 (Health Report Generation)](#건강-보고서-생성-health-report-generation)
    - [영양 목표 설정 및 영양제 추천 (Nutrition Goal Setting & Supplement Recommendations)](#영양-목표-설정-및-영양제-추천-nutrition-goal-setting--supplement-recommendations)
-   - [식단 계획 및 영양 분석 (Meal Planning & Nutrition Analysis)](#식단-계획-및-영양-분석-meal-planning--nutrition-analysis)
 2. [사용 기술 스택 및 라이브러리 (Tech Stack & Libraries)](#사용-기술-스택-및-라이브러리-tech-stack--libraries)
 3. [API specifications](#api-specifications)
 4. [ERD 데이터 모델링 (ERD Data Modeling)](#erd-데이터-모델링-erd-data-modeling)
@@ -69,7 +68,8 @@
 <br>
 
 ## API specifications
-![image](https://github.com/user-attachments/assets/eb9a7182-c602-438d-ba74-f1e780a90528)
+![image](https://github.com/user-attachments/assets/599413ea-2944-4105-bf6f-986755223f0f)
+
 
 <br>
 
