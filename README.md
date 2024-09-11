@@ -12,6 +12,8 @@
 3. [API specifications](#api-specifications)
 4. [ERD 데이터 모델링 (ERD Data Modeling)](#erd-데이터-모델링-erd-data-modeling)
 
+<br>
+
 ## 프로그램 주요 기능 (Main Features)
 
 ### 회원가입 (Sign Up)
@@ -46,10 +48,7 @@
 - [ ] 칼로리, 단백질, 탄수화물, 지방의 목표 섭취량 설정
 - [ ] 건강 프로필과 영양 섭취 분석을 바탕으로 개인화된 영양제 추천
 
-### 식단 계획 및 영양 분석 (Meal Planning & Nutrition Analysis)
-- [ ] 개인 영양 목표에 맞는 식단 생성
-- [ ] 음식 데이터베이스를 활용한 칼로리 및 영양소 계산
-- [ ] 사용자의 식사 기록을 바탕으로 영양 섭취 분석
+<br>
 
 ## 사용 기술 스택 및 라이브러리 (Tech Stack & Libraries)
 <p align="center">
@@ -67,8 +66,12 @@
 - Authentication: JWT
 - API Documentation: Swagger
 
+<br>
+
 ## API specifications
 ![image](https://github.com/user-attachments/assets/eb9a7182-c602-438d-ba74-f1e780a90528)
+
+<br>
 
 ## ERD 데이터 모델링 (ERD Data Modeling)
 ![image](https://github.com/user-attachments/assets/774d78d8-3156-4d5e-b46e-a5cde600f9b5)

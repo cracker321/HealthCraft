@@ -20,9 +20,4 @@ export class NutritionController {
     return this.nutritionService.calculateCalories(foodItems);
   }
 
-  // 식단 플래너 엔드포인트
-  @Post('meal-plan/:userId')
-  async createMealPlan(@Param('userId') userId: string, @Body() mealPlanData: any) {
-    return this.nutritionService.createMealPlan(userId, mealPlanData);
-  }
 }
