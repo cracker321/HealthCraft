@@ -8,7 +8,7 @@ import { HealthProfile } from './entity/health-profile.entity';
 import { HealthCheckup } from './entity/health-checkup.entity';
 import { HealthReport } from './entity/health-report.entity';
 import { UserModule } from '../user/user.module';
-import { HealthService } from './service/health.service'; // HealthService 추가
+import { HealthService } from './service/health.service'; 
 
 @Module({
   imports: [

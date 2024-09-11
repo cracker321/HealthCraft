@@ -12,7 +12,7 @@ import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { FindIdDto } from '../dto/find-id.dto';
 import { hashPassword, comparePassword } from '../../../common/utils/password.util';
 
-// 인증 관련 비즈니스 로직을 처리하는 서비스
+// 인증 관련 비즈니스 로직 처리
 @Injectable()
 export class AuthService {
   constructor(
@@ -49,7 +49,7 @@ export class AuthService {
       };
     }
     // 인증 실패 시 예외 발생
-    throw new UnauthorizedException('Please check your login credentials');
+    throw new UnauthorizedException('로그인 정보를 확인하세요.');
   }
 
   // 로그아웃 메소드
@@ -63,7 +63,7 @@ export class AuthService {
     // 이메일로 사용자 찾기
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('해당 사용자가 존재하지 않습니다.');
     }
     // 비밀번호 재설정 토큰 생성
     const resetToken = Math.random().toString(36).slice(-8);
@@ -83,7 +83,7 @@ export class AuthService {
       }
     });
     if (!user) {
-      throw new NotFoundException('Invalid or expired password reset token');
+      throw new NotFoundException('유효하지 않거나 만료된 비밀번호 재설정 토큰입니다.');
     }
     // 새 비밀번호 해싱 및 저장
     user.password = await hashPassword(resetPasswordDto.newPassword);
@@ -98,7 +98,7 @@ export class AuthService {
     // 이메일로 사용자 찾기
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('해당 사용자가 존재하지 않습니다.');
     }
     // 사용자 이름 반환
     return user.username;

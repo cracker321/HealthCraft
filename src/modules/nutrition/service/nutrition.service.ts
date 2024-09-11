@@ -37,16 +37,6 @@ export class NutritionService {
       totalFat: 0,
     };
 
-    // 각 식사 기록을 순회하며 영양 성분을 합산
-    mealRecords.forEach(record => {
-      record.foodItems.forEach(food => {
-        analysis.totalCalories += food.caloriesPer100g;
-        analysis.totalProtein += food.proteinPer100g;
-        analysis.totalCarbs += food.carbsPer100g;
-        analysis.totalFat += food.fatPer100g;
-      });
-    });
-
     return analysis;
   }
 
@@ -56,6 +46,8 @@ export class NutritionService {
     const nutritionGoal = await this.nutritionGoalRepository.findOne({
       where: { user: { id: userId } }
     });
+
+
 
     // 사용자의 영양 목표에 맞는 레시피 추천
     const recommendedRecipes = await this.recipeRepository.find({
@@ -71,6 +63,8 @@ export class NutritionService {
     return recommendedRecipes;
   }
 
+
+
   // 현재 사용자의 영양 목표 조회
   async getCurrentNutritionGoal(userId: string): Promise<NutritionGoal> {
     const user = await this.userService.findOne(userId);
@@ -80,19 +74,21 @@ export class NutritionService {
     });
   }
 
+
   // 칼로리 계산 메서드
   async calculateCalories(foodItems: string[]): Promise<number> {
     const foods = await this.foodDatabaseRepository.findByIds(foodItems);  // 음식 항목 조회
     return foods.reduce((total, food) => total + food.caloriesPer100g, 0);  // 총 칼로리 계산
   }
 
+
+  
   // 식단 플래너 생성 메서드
   async createMealPlan(userId: string, mealPlanData: CreateMealPlanDto): Promise<MealRecord> {
     const user = await this.userService.findOne(userId);
     const mealPlan = new MealRecord();
     mealPlan.user = user;
     mealPlan.eatenAt = mealPlanData.date;  // 식사 날짜 설정
-    mealPlan.mealType = mealPlanData.mealType;  // 식사 유형 설정
     
     const foodItems = await this.foodDatabaseRepository.findByIds(mealPlanData.foodItemIds);  // 음식 항목 조회
     mealPlan.foodItems = foodItems;

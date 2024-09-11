@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 목차
 
 1. [프로그램 주요 기능&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Features](#프로그램-주요-기능-main-features)
@@ -94,3 +95,97 @@
 ## ERD 데이터 모델링 (ERD Data Modeling)
 
 ![image](https://github.com/user-attachments/assets/5ea0bd15-b97f-4699-b2c8-0ddc0b815a0c)
+=======
+## 목차
+
+1. [프로그램 주요 기능&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Main Features](#프로그램-주요-기능-main-features)
+   - [회원가입&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign Up](#회원가입-sign-up)
+   - [로그인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sign In](#로그인-sign-in)
+   - [비밀번호 찾기 및 재설정&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reset Password](#비밀번호-찾기-및-재설정-reset-password)
+   - [개인 건강 프로필 관리&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Personal Health Profile Management](#개인-건강-프로필-관리-personal-health-profile-management)
+   - [영양 목표 설정 및 추적&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nutrition Goal Setting & Tracking](#영양-목표-설정-및-추적-nutrition-goal-setting--tracking)
+   - [식단 계획 및 레시피 추천&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Meal Planning & Recipe Recommendations](#식단-계획-및-레시피-추천-meal-planning--recipe-recommendations)
+   - [건강 검진 기록&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Health Check-up Records](#건강-검진-기록-health-check-up-records)
+   - [영양제 추천&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supplement Recommendations](#영양제-추천-supplement-recommendations)
+
+2. [사용한 기술 스택 및 라이브러리&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tech Stack & Libraries](#사용한-기술-스택-및-라이브러리-tech-stack--libraries)
+
+3. [API 명세&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;API Specifications](#api-specifications)
+
+4. [ERD 데이터 모델링&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ERD Data Modeling](#erd-데이터-모델링-erd-data-modeling)
+
+<br/><br/>
+
+## 프로그램 주요 기능 (Main Features)
+
+### 회원가입 (Sign Up)
+
+- [ ] 이메일, 비밀번호, 이름, 생년월일, 성별 등의 기본 정보를 입력하여 계정 생성
+
+### 로그인 (Sign In)
+
+- [ ] 이메일과 비밀번호를 사용한 안전한 로그인 시스템
+- [ ] JWT를 사용한 사용자 인증 구현
+
+### 비밀번호 찾기 및 재설정 (Reset Password)
+
+- [ ] 등록된 이메일로 비밀번호 재설정 링크 발송
+- [ ] 보안을 위한 일회용 토큰 생성 및 유효 시간 설정
+
+### 개인 건강 프로필 관리 (Personal Health Profile Management)
+
+- [ ] 키, 체중, 체지방률 등 기본 신체 정보 입력 및 업데이트
+- [ ] 식이 제한사항 정보 등록
+- [ ] 건강 목표 설정 (체중 감량, 전반적인 건강 개선 등)
+
+### 영양 목표 설정 및 추적 (Nutrition Goal Setting & Tracking)
+
+- [ ] 사용자의 신체 정보와 활동 수준을 바탕으로 일일 권장 칼로리 계산
+- [ ] 탄수화물, 단백질, 지방의 적정 비율 제안
+
+### 식단 계획 및 레시피 추천 (Meal Planning & Recipe Recommendations)
+
+- [ ] 개인 영양 목표에 맞는 식단 추천
+- [ ] 식이 제한사항과 선호도를 고려한 레시피 추천
+
+### 건강 검진 기록 (Health Check-up Records)
+
+- [ ] 정기 건강 검진 결과 입력 및 관리 (혈압, 콜레스테롤, 혈당 등)
+- [ ] 이상 수치 감지 및 개선을 위한 조언 제공
+
+### 영양제 추천 (Supplement Recommendations)
+
+- [ ] 건강 프로필과 영양 섭취 분석을 바탕으로 개인화된 영양제 추천
+
+<br/><br/>
+
+## 사용 기술 스택 및 라이브러리 (Tech Stack & Libraries)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/remojansen/logo.ts/master/ts.png" alt="TypeScript" width="100" height="100"/>
+  <img src="https://docs.nestjs.com/assets/logo-small.svg" alt="NestJS" width="100" height="100"/>
+  <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg" alt="MySQL" width="100" height="100"/>
+  <img src="https://avatars.githubusercontent.com/u/20165699?s=200&v=4" alt="TypeORM" width="100" height="100"/>
+  <img src="https://jwt.io/img/pic_logo.svg" alt="JWT" width="100" height="100"/>
+  <img src="https://static1.smartbear.co/swagger/media/assets/swagger_fav.png" alt="Swagger" width="100" height="100"/>
+</p>
+
+- Backend: TypeScript, Nest.js
+- Database: MySQL
+- ORM: TypeORM
+- Authentication: JWT
+- API Documentation: Swagger
+
+<br/><br/>
+
+## API specifications
+
+![image](https://github.com/user-attachments/assets/eb9a7182-c602-438d-ba74-f1e780a90528)
+
+
+<br/><br/>
+
+## ERD 데이터 모델링 (ERD Data Modeling)
+
+![image](https://github.com/user-attachments/assets/5ea0bd15-b97f-4699-b2c8-0ddc0b815a0c)
+>>>>>>> 71ae1c044944d307f9c531a168a25392dd6dd913

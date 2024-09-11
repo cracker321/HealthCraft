@@ -25,11 +25,4 @@ export class UserController {
     return this.userService.createHealthProfile(userId, healthInfoDto);
   }
 
-  // 건강 목표 설정 엔드포인트
-  @Post('health-goal/:userId')
-  async setHealthGoal(@Param('userId') userId: string, @Body() healthGoalDto: any) {
-    // 이 메서드는 UserService에 구현되어 있지 않으므로, 필요에 따라 구현해야 함.
-    // return this.userService.setHealthGoal(userId, healthGoalDto);
-    throw new Error('Not implemented');
-  }
 }

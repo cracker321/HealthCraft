@@ -11,7 +11,7 @@ interface NutritionIntake {
   protein: number;
   carbs: number;
   fat: number;
-  [key: string]: number; // 기타 영양소를 위한 인덱스 시그니처
+  [key: string]: number;
 }
 
 interface NutritionAnalysis {
@@ -58,6 +58,8 @@ export class NutritionAnalysisService {
     return this.compareIntakeWithGoal(nutritionIntake, nutritionGoal);
   }
 
+
+  
   private calculateNutritionIntake(mealRecords: MealRecord[]): NutritionIntake {
     const totalIntake: NutritionIntake = {
       calories: 0,
@@ -86,10 +88,6 @@ export class NutritionAnalysisService {
       });
     });
 
-    // 소수점 둘째 자리까지 반올림
-    Object.keys(totalIntake).forEach(key => {
-      totalIntake[key] = Number(totalIntake[key].toFixed(2));
-    });
 
     return totalIntake;
   }
@@ -118,38 +116,4 @@ export class NutritionAnalysisService {
     };
   }
 
-  // 영양 섭취 추세를 분석하는 메서드
-  async analyzeNutritionTrend(userId: string, startDate: Date, endDate: Date): Promise<any> {
-    const dailyIntakes = await this.getDailyIntakes(userId, startDate, endDate);
-    return this.calculateTrend(dailyIntakes);
-  }
-
-  private async getDailyIntakes(userId: string, startDate: Date, endDate: Date): Promise<any[]> {
-    // 날짜별 영양 섭취량을 조회하는 로직
-    // ...
-    return []; // 임시 반환값
-  }
-
-  private calculateTrend(dailyIntakes: any[]): any {
-    // 영양 섭취 추세를 계산하는 로직
-    // ...
-    return {}; // 임시 반환값
-  }
-
-  // 영양 균형 점수를 계산하는 메서드
-  async calculateNutritionBalanceScore(userId: string, date: Date): Promise<number> {
-    const dayStart = new Date(date.setHours(0, 0, 0, 0));
-    const dayEnd = new Date(date.setHours(23, 59, 59, 999));
-    const analysis = await this.analyzeNutritionIntake(userId, dayStart, dayEnd);
-    
-    // 영양 균형 점수 계산 로직
-    let score = 100;
-    Object.values(analysis.comparison).forEach(({ percentageAchieved }) => {
-      if (percentageAchieved < 90 || percentageAchieved > 110) {
-        score -= 10;
-      }
-    });
-
-    return Math.max(score, 0); // 최소 점수는 0
-  }
 }

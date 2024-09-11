@@ -31,6 +31,7 @@ export class HealthProfile {
   @Max(500, { message: '체중은 500kg을 초과할 수 없습니다.' })
   weight: number;
 
+
   // BMI 정보
   @Column('float')
   bmi: number;
@@ -39,72 +40,24 @@ export class HealthProfile {
   @Column('float')
   bmr: number;
 
-  // 체지방률 정보 (선택적)
-  @Column('float', { nullable: true })
-  @IsNumber({}, { message: '체지방률은 숫자여야 합니다.' })
-  @Min(0, { message: '체지방률은 0% 이상이어야 합니다.' })
-  @Max(100, { message: '체지방률은 100%를 초과할 수 없습니다.' })
-  bodyFatPercentage?: number;
-
-  // 근육량 정보 (선택적)
-  @Column('float', { nullable: true })
-  @IsNumber({}, { message: '근육량은 숫자여야 합니다.' })
-  @Min(0, { message: '근육량은 0kg 이상이어야 합니다.' })
-  muscleMass?: number;
-
-  // 활동 수준
-  @Column()
-  @IsEnum(['sedentary', 'lightly_active', 'moderately_active', 'very_active', 'extra_active'], 
-    { message: '유효한 활동 수준을 선택해주세요.' })
-  activityLevel: string;
-
-  // 건강 목표
-  @Column()
-  @IsEnum(['weight_loss', 'muscle_gain', 'maintenance', 'general_health'], 
-    { message: '유효한 건강 목표를 선택해주세요.' })
-  healthGoal: string;
-
-  // 영양 계획과의 일대다 관계
-  @OneToMany(() => NutritionPlan, nutritionPlan => nutritionPlan.healthProfile)
-  nutritionPlans: NutritionPlan[];
-    
-  // 영양 목표와의 일대다 관계
-  @OneToMany(() => NutritionGoal, nutritionGoal => nutritionGoal.healthProfile)
-  nutritionGoals: NutritionGoal[];
-
   // 생성 일자
   @CreateDateColumn()
   createdAt: Date;
-
+  
   // 수정 일자
   @UpdateDateColumn()
   updatedAt: Date;
-
+  
   // BMI 계산 메서드
   calculateBMI() {
     this.bmi = this.weight / ((this.height / 100) ** 2);
   }
+  
+  // 영양 계획과의 일대다 관계
+  @OneToMany(() => NutritionPlan, nutritionPlan => nutritionPlan.healthProfile)
+  nutritionPlans: NutritionPlan[];
 
-  // BMR 계산 메서드 (해리스-베네딕트 공식 사용)
-  calculateBMR(age: number, gender: string) {
-    if (gender === 'male') {
-      this.bmr = 88.362 + (13.397 * this.weight) + (4.799 * this.height) - (5.677 * age);
-    } else {
-      this.bmr = 447.593 + (9.247 * this.weight) + (3.098 * this.height) - (4.330 * age);
-    }
-  }
+  @OneToMany(() => NutritionGoal, nutritionGoal => nutritionGoal.healthProfile)
+  nutritionGoals: NutritionGoal[];
 
-  // 일일 칼로리 요구량 계산 메서드
-  calculateDailyCalorieNeeds(): number {
-    let activityFactor;
-    switch (this.activityLevel) {
-      case 'sedentary': activityFactor = 1.2; break;
-      case 'lightly_active': activityFactor = 1.375; break;
-      case 'moderately_active': activityFactor = 1.55; break;
-      case 'very_active': activityFactor = 1.725; break;
-      case 'extra_active': activityFactor = 1.9; break;
-      default: activityFactor = 1.2;
-    }
-    return this.bmr * activityFactor;
-  }
 }

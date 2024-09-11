@@ -31,17 +31,6 @@ export class NutritionPlan {
   @ManyToOne(() => HealthProfile, healthProfile => healthProfile.nutritionPlans)
   healthProfile: HealthProfile;
 
-  // 계획 시작일 및 종료일
-  @Column()
-  @IsNotEmpty({ message: '계획 시작일은 필수입니다.' })
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  startDate: Date;
-
-  @Column({ nullable: true })
-  @IsOptional()
-  @IsDate({ message: '유효한 날짜 형식이 아닙니다.' })
-  endDate?: Date;
-
   // 일일 영양 목표
   @Column('int')
   @IsNotEmpty({ message: '일일 칼로리 목표는 필수입니다.' })
@@ -67,20 +56,8 @@ export class NutritionPlan {
   @Min(0, { message: '지방 목표는 0g 이상이어야 합니다.' })
   fatTarget: number;
 
-  // 식사 분배 및 식품 추천/제한 정보
-  @Column('simple-json')
-  mealDistribution: { [key: string]: number };
-
   @Column('simple-array')
   recommendedFoods: string[];
-
-  @Column('simple-array')
-  foodsToAvoid: string[];
-
-  // 추천 레시피와의 다대다 관계
-  @ManyToMany(() => Recipe)
-  @JoinTable()
-  recommendedRecipes: Recipe[];
 
   @CreateDateColumn()
   createdAt: Date;
@@ -88,25 +65,4 @@ export class NutritionPlan {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // 영양 목표 달성도 계산 메서드
-  calculateNutritionGoalProgress(consumedCalories: number, consumedProtein: number, consumedCarbs: number, consumedFat: number) {
-    return {
-      calorieProgress: (consumedCalories / this.dailyCalorieTarget) * 100,
-      proteinProgress: (consumedProtein / this.proteinTarget) * 100,
-      carbProgress: (consumedCarbs / this.carbTarget) * 100,
-      fatProgress: (consumedFat / this.fatTarget) * 100
-    };
-  }
-
-  // 영양 계획에 레시피 추가 메서드
-  addRecipe(recipe: Recipe) {
-    if (!this.recommendedRecipes.find(r => r.id === recipe.id)) {
-      this.recommendedRecipes.push(recipe);
-    }
-  }
-
-  // 영양 계획에서 레시피 제거 메서드
-  removeRecipe(recipeId: string) {
-    this.recommendedRecipes = this.recommendedRecipes.filter(r => r.id !== recipeId);
-  }
 }

@@ -11,7 +11,7 @@ export class HealthController {
   constructor(
     private readonly healthCheckupService: HealthCheckupService,
     private readonly healthReportService: HealthReportService,
-    private readonly healthService: HealthService // HealthService 의존성 주입
+    private readonly healthService: HealthService 
   ) {}
 
   @Post('checkup/:userId')
@@ -30,16 +30,11 @@ export class HealthController {
     return this.healthReportService.generateReport(userId);
   }
 
-  // BMI 계산 엔드포인트
-  @Get('bmi/:userId')
-  async calculateBMI(@Param('userId') userId: string) {
-    return this.healthService.calculateBMI(userId); // HealthService의 메서드 호출
-  }
 
-  // 건강 체크업 기록 엔드포인트
+  // 건강 검진 기록 엔드포인트
   @Post('checkup/:userId')
   async recordCheckup(@Param('userId') userId: string, @Body() checkupData: any) {
-    return this.healthService.recordCheckup(userId, checkupData); // HealthService의 메서드 호출
+    return this.healthService.recordCheckup(userId, checkupData); 
   }
 
 }

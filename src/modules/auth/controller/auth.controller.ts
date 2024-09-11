@@ -30,7 +30,7 @@ export class AuthController {
     return this.authService.signIn(signInDto);
   }
 
-  // 로그아웃 엔드포인트 (JWT 인증 필요)
+  // 로그아웃 엔드포인트 (JWT 인증)
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)

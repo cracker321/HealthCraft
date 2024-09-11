@@ -15,12 +15,6 @@ export class HealthProfileController {
   async create(@Param('userId') userId: string, @Body() createHealthProfileDto: CreateHealthProfileDto) {
     return this.healthProfileService.create(userId, createHealthProfileDto);
   }
-
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateHealthProfileDto: UpdateHealthProfileDto) {
-    return this.healthProfileService.update(id, updateHealthProfileDto);
-  }
-
   @Get('latest/:userId')
   async getLatest(@Param('userId') userId: string) {
     return this.healthProfileService.findLatestByUserId(userId);

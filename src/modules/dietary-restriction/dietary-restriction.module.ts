@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DietaryRestrictionService } from './service/dietary-restriction.service';
 import { DietaryRestrictionController } from './controller/dietary-restriction.controller';
 import { DietaryRestriction } from './entity/dietary-restriction.entity';
-import { UserModule } from '../user/user.module';  // forwardRef로 수정
+import { UserModule } from '../user/user.module'; 
 
 @Module({
   imports: [

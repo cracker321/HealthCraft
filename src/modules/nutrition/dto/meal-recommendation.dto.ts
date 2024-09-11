@@ -9,6 +9,5 @@ export class MealRecommendationDto {
   @IsArray()
   dietaryRestrictions: string[];
 
-  @IsString()
-  mealType: string; // breakfast, lunch, dinner, snack
+ 
 }

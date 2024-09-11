@@ -77,18 +77,15 @@ import { Exclude } from 'class-transformer';
 
 
 import { HealthProfile } from '../../health/entity/health-profile.entity';
-import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
 import { NutritionPlan } from '../../nutrition/entity/nutrition-plan.entity';
 import { MealRecord } from '../../nutrition/entity/meal-record.entity';
-import { ExerciseRecord } from '../../exercise-tracking/entity/exercise-record.entity';
 import { HealthCheckup } from '../../health/entity/health-checkup.entity';
 import { HealthReport } from '../../health/entity/health-report.entity';
 import { DietaryRestriction } from '../../dietary-restriction/entity/dietary-restriction.entity';
 import { CalorieCalculation } from '../../nutrition/entity/calorie-calculation.entity';
 import { SupplementRecommendation } from '../../supplement-recommendation/entity/supplement-recommendation.entity';
-import { MealPlan } from '../../meal-planner/entity/meal-plan.entity';
-import { HydrationRecord } from '../../hydration-tracking/entity/hydration-record.entity';
-import { HealthGoal } from '../../goal-tracking/entity/health-goal.entity';
+import { NutritionGoal } from '../../nutrition/entity/nutrition-goal.entity';
+
 
 
 @Entity()
@@ -192,14 +189,11 @@ export class User { // '클래스 User' 를 정의함.
   @IsEnum(['male', 'female', 'other'], { message: '유효한 성별을 선택해주세요.' })
   gender: string;
 
-  @Column('float', { default: 2000 })
-  hydrationGoal: number;
+  @Column('float', { nullable: true })
+  weight?: number;
 
-  @Column({ default: 'moderate' })
-  activityLevel: string;
-
-  @OneToMany(() => HydrationRecord, hydrationRecord => hydrationRecord.user)
-  hydrationRecords: HydrationRecord[];
+  @Column('int', { nullable: true })
+  age?: number;
 
 
   // - @CreateDateColumn() 데코레이터
@@ -433,12 +427,10 @@ export class User { // '클래스 User' 를 정의함.
 
   @OneToMany(() => NutritionGoal, nutritionGoal => nutritionGoal.user)
   nutritionGoals: NutritionGoal[];
-
+  
   @OneToMany(() => MealRecord, mealRecord => mealRecord.user)
   mealRecords: MealRecord[];
 
-  @OneToMany(() => ExerciseRecord, exerciseRecord => exerciseRecord.user)
-  exerciseRecords: ExerciseRecord[];
 
   @OneToMany(() => HealthCheckup, healthCheckup => healthCheckup.user)
   healthCheckups: HealthCheckup[];
@@ -454,21 +446,6 @@ export class User { // '클래스 User' 를 정의함.
 
   @OneToMany(() => SupplementRecommendation, supplementRecommendation => supplementRecommendation.user)
   supplementRecommendations: SupplementRecommendation[];
-
-  @OneToMany(() => MealPlan, mealPlan => mealPlan.user)
-  mealPlans: MealPlan[];
-
-  @OneToMany(() => HealthGoal, healthGoal => healthGoal.user)
-  healthGoals: HealthGoal[];
-
-  @Column('float', { nullable: true })
-  weight?: number;
-
-  @Column('int', { nullable: true })
-  age?: number;
-
-  @Column({ default: 'maintenance' })
-  healthGoal: string;
 
 
 }

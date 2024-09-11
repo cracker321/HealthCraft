@@ -38,21 +38,6 @@ export class HealthReport {
     bloodSugarStatus: string;
   };
 
-  @Column('simple-array')
-  improvements: string[];
-
-  @Column('simple-array')
-  risks: string[];
-
-  @Column('simple-json')
-  recommendations: {
-    diet: string[];
-    exercise: string[];
-    lifestyle: string[];
-  };
-
-  @Column('text', { nullable: true })
-  additionalNotes?: string;
 
   @CreateDateColumn()
   createdAt: Date;

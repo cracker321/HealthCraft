@@ -15,10 +15,4 @@ export class SupplementRecommendationController {
   async getSupplementRecommendation(@Param('userId') userId: string) {
     return this.supplementService.recommendSupplement(userId);
   }
-
-  // 영양제 복용 스케줄 생성 엔드포인트
-  @Post('schedule/:userId')
-  async createSupplementSchedule(@Param('userId') userId: string, @Body() scheduleData: any) {
-    return this.supplementService.createSupplementSchedule(userId, scheduleData);
-  }
 }

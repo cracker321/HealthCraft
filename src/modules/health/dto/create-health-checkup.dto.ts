@@ -9,16 +9,6 @@ export class CreateHealthCheckupDto {
   weight: number;
 
   @IsNumber()
-  @Min(0, { message: '혈압(수축기)은 0 이상이어야 합니다.' })
-  @Max(300, { message: '혈압(수축기)은 300 이하여야 합니다.' })
-  systolicBP: number;
-
-  @IsNumber()
-  @Min(0, { message: '혈압(이완기)은 0 이상이어야 합니다.' })
-  @Max(200, { message: '혈압(이완기)은 200 이하여야 합니다.' })
-  diastolicBP: number;
-
-  @IsNumber()
   @Min(0, { message: '총 콜레스테롤은 0 이상이어야 합니다.' })
   totalCholesterol: number;
 
