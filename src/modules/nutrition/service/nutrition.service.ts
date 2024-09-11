@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { NutritionGoal } from '../entity/nutrition-goal.entity';
 import { MealRecord } from '../entity/meal-record.entity';
-import { FoodDatabase } from '../entity/food-database.entity';  // FoodDatabase 추가
+import { FoodDatabase } from '../entity/food-database.entity';  
 import { Recipe } from '../entity/recipe.entity';
 import { UserService } from '../../user/service/user.service';
 import { CreateMealPlanDto } from '../dto/create-meal-plan.dto';
@@ -16,7 +16,7 @@ export class NutritionService {
     @InjectRepository(MealRecord)
     private mealRecordRepository: Repository<MealRecord>,
     @InjectRepository(FoodDatabase)
-    private foodDatabaseRepository: Repository<FoodDatabase>,  // FoodDatabaseRepository 주입
+    private foodDatabaseRepository: Repository<FoodDatabase>, 
     @InjectRepository(Recipe)
     private recipeRepository: Repository<Recipe>,
     private userService: UserService

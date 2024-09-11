@@ -1,5 +1,3 @@
-// src/modules/auth/service/auth.service.ts
-
 import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';

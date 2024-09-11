@@ -1,5 +1,3 @@
-// src/modules/supplement-recommendation/dto/supplement-recommendation-request.dto.ts
-
 import { IsArray, IsString } from 'class-validator';
 
 export class SupplementRecommendationRequestDto {

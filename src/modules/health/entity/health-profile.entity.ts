@@ -1,4 +1,3 @@
-// src/modules/health/entity/health-profile.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, Max, IsEnum } from 'class-validator';
 import { User } from '../../user/entity/user.entity';

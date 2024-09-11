@@ -18,6 +18,6 @@ import { DietaryRestrictionModule } from '../dietary-restriction/dietary-restric
   ],
   providers: [UserService],
   controllers: [UserController],
-  exports: [UserService, TypeOrmModule], // UserRepository를 사용할 수 있도록 TypeOrmModule을 exports에 포함
+  exports: [UserService, TypeOrmModule],
 })
 export class UserModule {}

@@ -1,14 +1,5 @@
 // Ingredient 엔티티:
 
-
-// 개별 식재료에 대한 정보 저장
-// 식재료 이름, 기본 단위, 영양 정보 포함
-// 레시피 구성 및 영양 계산에 활용
-// 연관 관계:
-
-// Recipe와 M:N 관계
-// FoodDatabase와 1:1 또는 1:N 관계 (식재료 정보가 음식 데이터베이스의 일부가 될 수 있음)
-
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, IsOptional } from 'class-validator';
 

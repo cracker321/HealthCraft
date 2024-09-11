@@ -1,5 +1,3 @@
-// src/modules/health/dto/create-health-checkup.dto.ts
-
 import { IsNumber, IsDate, Min, Max } from 'class-validator';
 
 export class CreateHealthCheckupDto {

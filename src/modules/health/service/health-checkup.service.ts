@@ -1,5 +1,3 @@
-// src/modules/health/service/health-checkup.service.ts
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

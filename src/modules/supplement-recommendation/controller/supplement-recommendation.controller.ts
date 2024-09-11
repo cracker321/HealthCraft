@@ -1,5 +1,3 @@
-// src/modules/supplement/supplement.controller.ts
-
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { SupplementRecommendationService } from '../service/supplement-recommendation.service';
 import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';

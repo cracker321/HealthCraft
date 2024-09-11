@@ -1,4 +1,3 @@
-// src/modules/nutrition-analysis/service/nutrition-analysis.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
@@ -42,7 +41,7 @@ export class NutritionAnalysisService {
         user: { id: userId },
         eatenAt: Between(startDate, endDate)
       },
-      relations: ['foodItems', 'recipes'] // 관련된 음식 항목과 레시피를 함께 가져옵니다.
+      relations: ['foodItems', 'recipes'] 
     });
 
     const nutritionIntake = this.calculateNutritionIntake(mealRecords);

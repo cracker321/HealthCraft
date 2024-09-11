@@ -1,5 +1,3 @@
-// src/modules/nutrition/dto/create-nutrition-goal.dto.ts
-
 import { IsNumber, IsEnum, Min, Max } from 'class-validator';
 
 export class CreateNutritionGoalDto {

@@ -1,5 +1,3 @@
-// src/modules/auth/controller/auth.controller.ts
-
 import { Controller, Post, Body, HttpCode, HttpStatus, Get, UseGuards, Param } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { SignUpDto } from '../dto/signup.dto';

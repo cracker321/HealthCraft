@@ -1,5 +1,3 @@
-// src/modules/nutrition/dto/create-meal-plan.dto.ts
-
 import { IsDate, IsEnum, IsArray, IsUUID } from 'class-validator';
 
 export class CreateMealPlanDto {

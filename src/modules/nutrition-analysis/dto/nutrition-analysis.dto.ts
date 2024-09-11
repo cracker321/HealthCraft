@@ -1,5 +1,3 @@
-// src/modules/nutrition/dto/nutrition-analysis.dto.ts
-
 import { IsString, IsNumber, IsArray } from 'class-validator';
 
 export class NutritionAnalysisDto {

@@ -1,15 +1,5 @@
 // DietaryRestriction 엔티티:
 
-
-// 사용자의 식이 제한 사항 저장
-// 제한 유형, 이유, 시작일 등 포함
-// 식단 계획 및 음식 추천 시 고려됨
-// 연관 관계:
-
-// User와 N:1 관계 (여러 제한 사항이 한 사용자에 속함)
-
-
-
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsDate, IsOptional } from 'class-validator';
 import { User } from '../../user/entity/user.entity';

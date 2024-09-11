@@ -1,5 +1,3 @@
-// src/modules/health/controller/health-profile.controller.ts
-
 import { Controller, Get, Post, Put, Body, Param, UseGuards } from '@nestjs/common';
 import { HealthProfileService } from '../service/health-profile.service';
 import { CreateHealthProfileDto } from '../dto/create-health-profile.dto';

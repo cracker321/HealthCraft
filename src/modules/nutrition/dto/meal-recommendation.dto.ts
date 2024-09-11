@@ -1,5 +1,3 @@
-// src/modules/nutrition/dto/meal-recommendation.dto.ts
-
 import { IsString, IsArray } from 'class-validator';
 
 export class MealRecommendationDto {

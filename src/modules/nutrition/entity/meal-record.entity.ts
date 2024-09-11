@@ -1,19 +1,5 @@
 // MealRecord 엔티티:
 
-
-// 사용자의 실제 식사 내역을 상세히 기록
-// 각 식사의 시간, 유형, 구성 정보 포함
-// 섭취한 음식의 종류와 양 기록
-// 섭취한 음식에 대한 영양 정보 계산 및 저장
-// 실제 영양 섭취와 권장 섭취량 비교에 활용
-// 식사 패턴 분석 및 개인화된 조언 제공에 사용
-// 사진 첨부 기능 고려(시각적 기록)
-// 사용자의 식습관 변화 추적에 활용
-// 연관 관계:
-
-// User와 N:1 관계 (여러 식사 기록이 한 사용자에 속함)
-// FoodDatabase와 M:N 관계 (하나의 식사 기록은 여러 음식을 포함할 수 있고, 하나의 음식은 여러 식사 기록에 포함될 수 있음)
-
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import { IsNotEmpty, IsDate, IsEnum, IsNumber, Min, IsOptional } from 'class-validator';
 import { User } from '../../user/entity/user.entity';

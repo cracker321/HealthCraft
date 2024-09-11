@@ -1,5 +1,3 @@
-// src/modules/auth/dto/find-id.dto.ts
-
 import { IsEmail } from 'class-validator';
 
 export class FindIdDto {

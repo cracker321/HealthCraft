@@ -1,5 +1,3 @@
-// src/modules/health/dto/create-health-profile.dto.ts
-
 import { IsNumber, IsString, IsEnum, Min, Max } from 'class-validator';
 
 export class CreateHealthProfileDto {

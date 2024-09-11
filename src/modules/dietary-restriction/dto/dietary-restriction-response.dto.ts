@@ -1,4 +1,3 @@
-// src/modules/dietary-restriction/dto/dietary-restriction-response.dto.ts
 import { Exclude, Expose } from 'class-transformer';
 
 export class DietaryRestrictionResponseDto {

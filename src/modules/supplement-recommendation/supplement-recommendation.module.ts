@@ -1,5 +1,3 @@
-// src/modules/supplement-recommendation/supplement-recommendation.module.ts
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SupplementRecommendationService } from './service/supplement-recommendation.service';

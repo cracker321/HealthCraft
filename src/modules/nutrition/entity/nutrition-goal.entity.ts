@@ -5,8 +5,7 @@ import { HealthProfile } from '../../health/entity/health-profile.entity';
 
 
 // NutritionGoal 엔티티:
-// 사용자의 영양 목표를 저장하고 관리하는 엔티티
-// 목표 유형, 칼로리 및 영양소 목표, 시작일 및 종료일 등을 포함
+
 @Entity()
 export class NutritionGoal {
   // 'uuid'를 문자열로 변경

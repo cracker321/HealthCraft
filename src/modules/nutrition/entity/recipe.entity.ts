@@ -1,4 +1,3 @@
-// src/modules/nutrition/entity/recipe.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
 import { IsNotEmpty, IsNumber, Min, Max, IsArray, ValidateNested, IsString } from 'class-validator';
 import { Type } from 'class-transformer';

@@ -1,5 +1,3 @@
-// src/modules/health/controller/health-checkup.controller.ts
-
 import { Controller, Post, Get, Body, Param, UseGuards } from '@nestjs/common';
 import { HealthCheckupService } from '../service/health-checkup.service';
 import { CreateHealthCheckupDto } from '../dto/create-health-checkup.dto';

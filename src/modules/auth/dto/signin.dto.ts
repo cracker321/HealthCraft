@@ -1,5 +1,3 @@
-// src/modules/auth/dto/signin.dto.ts
-
 import { IsString, MinLength } from 'class-validator';
 
 export class SignInDto {
