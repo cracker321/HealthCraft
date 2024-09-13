@@ -40,7 +40,6 @@
 
 ### 건강 보고서 생성 (Health Report Generation)
 - [ ] 사용자의 최근 건강 검진 결과를 바탕으로 건강 보고서 생성
-- [ ] 전반적 건강 상태 및 주요 건강 지표 평가 포함
 
 ### 영양 목표 설정 및 영양제 추천 (Nutrition Goal Setting & Supplement Recommendations)
 - [ ] 사용자의 건강 프로필을 바탕으로 일일 영양 목표 설정
