@@ -82,7 +82,7 @@ COPY package*.json ./
 #     - npm run install 명령어는 시간이 많이 소요될 수 있음.
 #       만약 이 단계에서 캐시를 사용하지 않고 매번 새로 의존성 package.json 파일을 설치하게 된다면,
 #       도커 이미지 빌드 시간이 매우 길어질 수 있음.
-#     - 하.지.만! 만약, pakcage.json 파일이 변경되지 않았따면, Docker 는 이전 빌드에서 이미 설치된 의존서을
+#     - 하.지.만! 만약, pakcage.json 파일이 변경되지 않았다면, Docker 는 이전 빌드에서 이미 설치된 의존서을
 #       그대로 재사용할 수 있음!
 #       이는 이전에 캐시된 RUN nppm install 레이어가 존재하기 때문임!
 #     - 만약, package.json 의 내부 코드가 변경되었다면, Docker 는 캐시를 사용하지 않고
@@ -103,7 +103,32 @@ RUN npm install
 #   제외시켜야 함.
 #   위와 같은 '불필요한 파일들'이 Docker 컨테이너 내부로 복사되면
 #   이미지 크기가 커지고 빌드 시간이 오래 걸릴 수 있음.
+# ******중요*******
+# - '현재 vscode 프로젝트의 전체 소스 코드를 Docker 컨테이너 내부로 복사하는 COPY . . 명령어' 및
+#   '복사한 현재 vscode 프로젝트의 모든 소스코드 TypeScript 프로젝트를 Docker 컨테이너 내부에서 빌드하여 JavaScript 파일로 변환, 컴파일하여
+#   결과물을 생성해주는 명령어 RUN npm run build' 를 
+#   'COPY package*.json ./' 및 'RUN npm install' 이후에 작성하는 이유는,
+#   만약, 'COPY package*.json ./' 및 'RUN npm install' 보다 이전에 작성한다면
+#   소스 코드에 변경이 있어서 Docker 를 다시 빌드할 때마다 
+#   'Docker 컨테이너 내부에 현재 vscode 프로젝트의 의존성을 설치하는 npm install'도 다시 실행되어야 했을 것임.
+#   ***이는 불필요한 재설치를 야기하게 되어 '빌드 시간을 크게 증가시킴!!'***
+# - 로컬 vscode 프로젝트의 소스 코드는 '의존성 설치와 무관'하므로, 
+#   이를 '의존성 설치 단계 이후에 수행'하면 'npm install'을 반복 실행할 필요가 없게 되는 것이다!!
+#   즉, 이 전략은 RUN npm install 이 '소스 코드 변경에 영향을 받지 않도록 함'으로써,
+#   '불필요한 npm install 반복 재설치를 방지'하여 'Docker 이미지 재빌드 시간을 크게 단축'시키는 것이다!!
 
+# 예시 시나리오:
+
+# 상황 1: 소스 코드만 약간 변경됨 (예: 새로운 기능 추가)
+# package.json 파일이 변경되지 않기 때문에, Docker는 COPY package*.json → **RUN npm install**에서 캐시를 재사용합니다. 
+# npm install은 실행되지 않고, 이미 설치된 의존성을 그대로 유지합니다.
+# 결과적으로, 소스 코드 복사와 빌드 과정만 새로 진행되므로, 빌드 시간이 매우 짧아집니다.
+
+
+# 상황 2: 새로운 패키지가 추가됨 (예: package.json 수정)
+# package.json 파일이 변경되었기 때문에 Docker는 캐시를 사용하지 않고, npm install을 다시 실행하여 새로운 패키지를 설치합니다. 
+# 이때만 npm install이 재실행됩니다.
+# 이후에는 새로 변경된 의존성을 포함한 컨테이너가 생성됩니다.
 COPY . .
 
 RUN npm run build
